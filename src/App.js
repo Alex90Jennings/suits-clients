@@ -7,7 +7,7 @@ import SignIn from "./SignIn";
 function App() {
   return(
     <>
-      <main>
+      <main className='center-wrapper'>
         <Routes>
           <Route path="/" element={<SignIn />} />
           {/* <Route path="/lobby" element={<Lobby />}/>
