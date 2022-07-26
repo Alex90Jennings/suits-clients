@@ -1,12 +1,16 @@
 import Header from "./Header";
 import SignInPrompt from "./SignInPrompt";
+// import { useNavigate } from 'react-router-dom';
 
-function SignIn() {
+function SignIn(props) {
+  const username = props.username
+  const setUsername = props.setUsername
+
   return (
     <>
       <Header/>
       <main>
-        <SignInPrompt />
+        <SignInPrompt username={username} setUsername={setUsername}/>
       </main>
     </>
   );
