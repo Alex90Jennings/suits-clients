@@ -8,7 +8,6 @@ function App() {
   return(
     <>
       <main>
-        <p>Hello</p>
         <Routes>
           <Route path="/" element={<SignIn />} />
           {/* <Route path="/lobby" element={<Lobby />}/>

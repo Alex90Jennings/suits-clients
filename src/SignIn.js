@@ -4,7 +4,6 @@ function SignIn() {
   return (
     <>
       <Header/>
-      <p>Hello World</p>
     </>
   );
 }
