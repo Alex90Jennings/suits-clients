@@ -30,12 +30,16 @@ function SignInPrompt(props) {
   },[username])
     
     return (
-      <section>
-        <h2>Hi, welcome to Suits! Please choose a username:</h2>
+      <section className="three-columns-expand-one-three">
+        <div></div>
         <div>
-            <textarea ref={ref} type="text" rows="3" placeholder="type username here"></textarea>
-            <button onClick={() => {handleSubmit()}}>SUBMIT</button>
+          <h2>Hi, welcome to Suits! Please choose a username:</h2>
+          <div className="four-columns-expand-one-four">
+              <textarea ref={ref} type="text" rows="3" placeholder="type username here"></textarea>
+              <button onClick={() => {handleSubmit()}}>SUBMIT</button>
+          </div>
         </div>
+        <div></div>
       </section>
     );
   }
