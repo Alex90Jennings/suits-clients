@@ -7,11 +7,11 @@ function SignInPrompt(props) {
   const ref = useRef(null);
 
   const registerUser = (username) => {
-    console.log(username)
     client
     .post('/user', { username: username })
     .then((res) => {
-        localStorage.setItem('loggedInUser', JSON.stringify(res.data.user));
+        console.log(res.data.data.user.username)
+        localStorage.setItem('loggedInUser', JSON.stringify(res.data.data.user.username));
         // navigate('../home', { replace: true });
     })
     .catch((err) => { 
@@ -20,6 +20,7 @@ function SignInPrompt(props) {
   };
 
   const handleSubmit = () => {
+    console.log(ref.current.value)
     setUsername(ref.current.value)
   };
 
