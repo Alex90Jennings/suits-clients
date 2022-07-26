@@ -1,5 +1,3 @@
-import Table from "./Table";
-
 function Table() {
   return (
     <div></div>
