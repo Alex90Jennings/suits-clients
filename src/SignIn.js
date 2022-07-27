@@ -1,11 +1,11 @@
 import Header from "./Header";
 import SignInPrompt from "./SignInPrompt";
 import LobbyPrompt from "./LobbyPrompt"
-import { loggedInUserContext } from '../../../Helper/loggedInUserContext';
+import { globalContext } from './helper/globalContext';
 import { useContext } from "react";
 
 function SignIn(props) {
-  const { loggedInUser, setLoggedInUser } = useContext(loggedInUserContext)
+  const { loggedInUser, setLoggedInUser } = useContext(globalContext)
   const lobbyCode = props.lobbyCode
   const setLobbyCode = props.setLobbyCode
 

@@ -1,29 +1,27 @@
 import { useRef } from "react";
 import client from './utils/client.js';
-import { globalContext } from '../../../Helper/loggedInUserContext';
+import { globalContext } from './helper/globalContext';
 import { useContext } from "react";
 
 
 function SignInPrompt() {
-  const { loggedInUser, setLoggedInUser } = useContext(globalContext)
+  const { setLoggedInUser } = useContext(globalContext)
   const ref = useRef(null);
 
-  const registerUser = (username) => {
+  const registerUser = () => {
+    console.log("ref value: ", ref.current.value)
     client
-    .post('/user', { username: username })
+    .post('/user', { username: ref.current.value })
     .then((res) => {
-        console.log(res.data.data.user.username)
-        localStorage.setItem('loggedInUser', JSON.stringify(res.data.data.user.username));
+        const user = res.data.data.user
+        console.log("user: ", user)
+        console.log("username: ", user.username)
+        localStorage.setItem('loggedInUser', JSON.stringify(user.username));
+        setLoggedInUser({user: user})
     })
     .catch((err) => { 
       console.log(err.response)
     });
-  };
-
-  const handleSubmit = () => {
-    console.log(ref.current.value)
-    setLoggedInUser({username: ref.current.value})
-    //when loggedInUser is updated, registerUser(loggedInUser.username)
   };
     
     return (
@@ -33,7 +31,7 @@ function SignInPrompt() {
           <h2>Hi, welcome to Suits! Please choose a username:</h2>
           <div className="four-columns-expand-one-four">
               <textarea ref={ref} type="text" rows="3" placeholder="type username here"></textarea>
-              <button onClick={() => {handleSubmit()}}>SUBMIT</button>
+              <button onClick={() => {registerUser()}}>SUBMIT</button>
           </div>
         </div>
         <div></div>
