@@ -1,9 +1,11 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import client from './utils/client.js';
+import { loggedInUserContext } from '../../../Helper/loggedInUserContext';
+import { useContext } from "react";
 
-function SignInPrompt(props) {
-  const username = props.username
-  const setUsername = props.setUsername
+
+function SignInPrompt() {
+  const { loggedInUser, setLoggedInUser } = useContext(loggedInUserContext)
   const ref = useRef(null);
 
   const registerUser = (username) => {
@@ -12,7 +14,6 @@ function SignInPrompt(props) {
     .then((res) => {
         console.log(res.data.data.user.username)
         localStorage.setItem('loggedInUser', JSON.stringify(res.data.data.user.username));
-        // navigate('../home', { replace: true });
     })
     .catch((err) => { 
       console.log(err.response)
@@ -21,13 +22,9 @@ function SignInPrompt(props) {
 
   const handleSubmit = () => {
     console.log(ref.current.value)
-    setUsername(ref.current.value)
+    setLoggedInUser({username: ref.current.value})
+    //when loggedInUser is updated, registerUser(loggedInUser.username)
   };
-
-  useEffect(() => {
-    console.log(username)
-    registerUser(username)
-  },[username])
     
     return (
       <section className="three-columns-expand-one-three">

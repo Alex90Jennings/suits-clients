@@ -1,16 +1,20 @@
 import Header from "./Header";
 import SignInPrompt from "./SignInPrompt";
-// import { useNavigate } from 'react-router-dom';
+import LobbyPrompt from "./LobbyPrompt"
+import { loggedInUserContext } from '../../../Helper/loggedInUserContext';
+import { useContext } from "react";
 
 function SignIn(props) {
-  const username = props.username
-  const setUsername = props.setUsername
+  const { loggedInUser, setLoggedInUser } = useContext(loggedInUserContext)
+  const lobbyCode = props.lobbyCode
+  const setLobbyCode = props.setLobbyCode
 
   return (
     <>
       <Header/>
       <main>
-        <SignInPrompt username={username} setUsername={setUsername}/>
+        {loggedInUser.username === "" && <SignInPrompt loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>}
+        {loggedInUser.username !== "" && lobbyCode === "" && <LobbyPrompt loggedInUser={loggedInUser} lobbyCode={lobbyCode} setLobbyCode={setLobbyCode}/>}
       </main>
     </>
   );
