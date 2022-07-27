@@ -1,11 +1,11 @@
 import { useRef } from "react";
 import client from './utils/client.js';
-import { loggedInUserContext } from '../../../Helper/loggedInUserContext';
+import { globalContext } from '../../../Helper/loggedInUserContext';
 import { useContext } from "react";
 
 
 function SignInPrompt() {
-  const { loggedInUser, setLoggedInUser } = useContext(loggedInUserContext)
+  const { loggedInUser, setLoggedInUser } = useContext(globalContext)
   const ref = useRef(null);
 
   const registerUser = (username) => {

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import SignIn from "./SignIn";
-import { loggedInUserContext } from './Helper/loggedInUserContext';
+import { globalContext } from './helper/globalContext';
 // import Lobby from "./Lobby";
 // import Table from "./Table";
 
@@ -14,7 +14,7 @@ function App() {
 
   return(
     <>
-      <loggedInUserContext.Provider
+      <globalContext.Provider
         value={{
           loggedInUser,
           setLoggedInUser
@@ -27,7 +27,7 @@ function App() {
           <Route path="/table" element={<Table />}/> */}
         </Routes>
       </main>
-      </loggedInUserContext.Provider>
+      </globalContext.Provider>
     </>
     
   )
