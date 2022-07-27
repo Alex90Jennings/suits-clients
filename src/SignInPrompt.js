@@ -5,7 +5,7 @@ import { useContext } from "react";
 
 
 function SignInPrompt() {
-  const { setLoggedInUser } = useContext(globalContext)
+  const { setLoggedInUser, setGameState } = useContext(globalContext)
   const ref = useRef(null);
 
   const registerUser = () => {
@@ -13,8 +13,9 @@ function SignInPrompt() {
     .post('/user', { username: ref.current.value })
     .then((res) => {
         const user = res.data.data.user
-        localStorage.setItem('loggedInUser', JSON.stringify(user.username));
+        localStorage.setItem('loggedInUser', JSON.stringify(user));
         setLoggedInUser({user: user})
+        setGameState("select lobby")
     })
     .catch((err) => { 
       console.log(err.response)
@@ -27,8 +28,10 @@ function SignInPrompt() {
         <div>
           <h2>Hi, welcome to Suits! Please choose a username:</h2>
           <div className="four-columns-expand-one-four">
+            <div></div>
               <textarea ref={ref} type="text" rows="3" placeholder="type username here"></textarea>
               <button onClick={() => {registerUser()}}>SUBMIT</button>
+              <div></div>
           </div>
         </div>
         <div></div>

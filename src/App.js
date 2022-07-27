@@ -3,28 +3,39 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import SignIn from "./SignIn";
 import { globalContext } from './helper/globalContext';
-// import Lobby from "./Lobby";
+import Lobby from "./Lobby";
 // import Table from "./Table";
 
 function App() {
-  const [lobbyCode, setLobbyCode] = useState("")
-  const [loggedInUser, setLoggedInUser] = useState({id: null, username: "", cards: [], isHost: false, score: 0})
+  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem('loggedInUser')));
+  const [gameState, setGameState] = useState("sign in")
+  const [lobbyCode, setLobbyCode]= useState(JSON.parse(localStorage.getItem('lobby code')))
+  const [playerList, setPlayerList] = useState([])
 
   //if I have a loggedInUser and I want to setLoggedInUser(id: 1), 
+
+  console.log(gameState)
+  console.log(loggedInUser)
 
   return(
     <>
       <globalContext.Provider
         value={{
           loggedInUser,
-          setLoggedInUser
+          setLoggedInUser,
+          gameState,
+          setGameState,
+          lobbyCode,
+          setLobbyCode,
+          playerList,
+          setPlayerList
         }}
       >
       <main className='center-wrapper'>
         <Routes>
-          <Route path="/" element={<SignIn loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} lobbyCode={lobbyCode} setLobbyCode={setLobbyCode} />} />
-          {/* <Route path="/lobby" element={<Lobby />}/>
-          <Route path="/table" element={<Table />}/> */}
+          <Route path="/" element={<SignIn />} />
+          <Route path="/lobby/:id" element={<Lobby />}/>
+          {/* <Route path="/table/:id" element={<Table />}/> */}
         </Routes>
       </main>
       </globalContext.Provider>

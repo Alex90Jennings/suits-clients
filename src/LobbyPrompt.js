@@ -2,18 +2,24 @@ import { useRef } from "react";
 import client from './utils/client.js';
 import { globalContext } from './helper/globalContext';
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-function SignInPrompt(props) {
-  const setLobbyCode = props.setLobbyCode
-  const { loggedInUser } = useContext(globalContext)
+function SignInPrompt() {
+  const { loggedInUser, setGameState } = useContext(globalContext)
+  let navigate = useNavigate();
   const ref = useRef(null);
 
   const createNewTable = () => {
     client
     .post('/table', { Users: [loggedInUser.user] })
     .then((res) => {
+        console.log("creating new table")
+        console.log(res)
+        const tableId = Number(res.data.data.table.id)
+        console.log(tableId)
         localStorage.setItem('lobby code', JSON.stringify(res.data.data.table.id));
-        // navigate('../home', { replace: true });
+        navigate(`../lobby/${tableId}`, { replace: true });
+        setGameState("waiting lobby")
     })
     .catch((err) => { 
       console.log(err.response)
@@ -25,9 +31,9 @@ function SignInPrompt(props) {
     client
     .patch(`/user/${userId}`, {tableId: tableId})
     .then((res) => {
-        localStorage.setItem('loggedInUser', JSON.stringify(res.data.data.user.username));
-        setLobbyCode(ref.current.value)
-        // navigate('../home', { replace: true });
+        localStorage.setItem('lobby code', JSON.stringify(res.data.data.user.tableId));
+        navigate(`../lobby/${tableId}`, { replace: true });
+        setGameState("waiting lobby")
     })
     .catch((err) => { 
       console.log(err.response)
@@ -51,7 +57,11 @@ function SignInPrompt(props) {
         <div></div>
         <div>
           <h2>Hi {loggedInUser.user.username}! Would you like to create a new lobby and send a code to your friends, or join a lobby they created with their code:</h2>
-          <button onClick={() => {createNewTable()}}>CREATE NEW LOBBY</button>
+          <div className="three-columns-expand-one-three">
+            <div></div>
+            <button onClick={() => {createNewTable()}}>CREATE NEW LOBBY</button>
+            <div></div>
+          </div>
           <div className="four-columns-expand-one-four">
             <div></div>
             <textarea ref={ref} type="text" rows="3" placeholder="enter lobby code here"></textarea>
