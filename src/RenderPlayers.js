@@ -1,4 +1,4 @@
-// import client from './utils/client.js';
+import client from './utils/client.js';
 import { globalContext } from './helper/globalContext';
 import { useContext } from "react";
 
@@ -7,28 +7,34 @@ function RenderPlayers() {
 
     console.log(playerList)
 
-    if ( playerList !== getAllPlayersFromLobbyId()){
-      getAllPlayersFromLobbyId()
+    const getAllPlayersFromLobbyId = () => {
+      client
+      .get(`/user/table/${lobbyCode}`)
+      .then((res) => {
+        console.log(res.data.data.foundUsers.length)
+        setPlayerList(res.data.data.foundUsers)
+        localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
+      })
     }
 
-    const getAllPlayersFromLobbyId = () => {
-      //fetch all players for a spefic lobby using params
-      //setPlayerList
-      return
-    }
+    // if (playerList != JSON.parse(localStorage.getItem('current lobby players'))){
+    //   getAllPlayersFromLobbyId()
+    // }
+
     return (
         <>
             <main>
                 <h2>Welcome to Lobby {lobbyCode}</h2>
                 <ul className='grid-template-columns'>
-                  {playerList.map((player) => {
+                  {playerList !== null && playerList.map((player) => {
                     return (
-                      <li className="player-card" key={`${player.id}`}>
-                        Player 1
+                      <li className="player-card" key={`${player.user.id}`}>
+                        <p>{player.user.username}</p>
                       </li>
                     );
                   })}
                 </ul>
+                <button onClick={() => {getAllPlayersFromLobbyId()}}>REFRESH LOBBY</button>
             </main>
         </>
       );

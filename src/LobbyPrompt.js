@@ -13,10 +13,7 @@ function SignInPrompt() {
     client
     .post('/table', { Users: [loggedInUser.user] })
     .then((res) => {
-        console.log("creating new table")
-        console.log(res)
         const tableId = Number(res.data.data.table.id)
-        console.log(tableId)
         localStorage.setItem('lobby code', JSON.stringify(res.data.data.table.id));
         navigate(`../lobby/${tableId}`, { replace: true });
         setGameState("waiting lobby")
