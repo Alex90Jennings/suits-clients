@@ -9,13 +9,10 @@ function SignInPrompt() {
   const ref = useRef(null);
 
   const registerUser = () => {
-    console.log("ref value: ", ref.current.value)
     client
     .post('/user', { username: ref.current.value })
     .then((res) => {
         const user = res.data.data.user
-        console.log("user: ", user)
-        console.log("username: ", user.username)
         localStorage.setItem('loggedInUser', JSON.stringify(user.username));
         setLoggedInUser({user: user})
     })

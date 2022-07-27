@@ -8,13 +8,10 @@ function SignInPrompt(props) {
   const { loggedInUser } = useContext(globalContext)
   const ref = useRef(null);
 
-
   const createNewTable = () => {
-    console.log(loggedInUser)
     client
     .post('/table', { Users: [loggedInUser.user] })
     .then((res) => {
-        console.log(res.data.data.table.id)
         localStorage.setItem('lobby code', JSON.stringify(res.data.data.table.id));
         // navigate('../home', { replace: true });
     })
@@ -23,47 +20,42 @@ function SignInPrompt(props) {
     });
   };
 
-  // const addUserToLobby = ( id ) => {
-  //   client
-  //   .patch('/user', { id: id })
-  //   .then((res) => {
-  //       console.log(res.data.data.user.username)
-  //       localStorage.setItem('loggedInUser', JSON.stringify(res.data.data.user.username));
-  //       // navigate('../home', { replace: true });
-  //   })
-  //   .catch((err) => { 
-  //     console.log(err.response)
-  //   });
-  // };
-
-  const handleLobbyCodeSubmit = (id) => {
-    console.log(ref.current.value)
-    if (!isValidLobbyCode(id)) return false
-    //patch user lobbyId
-    setLobbyCode(ref.current.value)
+  const addUserToLobby = (tableId) => {
+    let userId = loggedInUser.user.id
+    client
+    .patch(`/user/${userId}`, {tableId: tableId})
+    .then((res) => {
+        localStorage.setItem('loggedInUser', JSON.stringify(res.data.data.user.username));
+        setLobbyCode(ref.current.value)
+        // navigate('../home', { replace: true });
+    })
+    .catch((err) => { 
+      console.log(err.response)
+    });
   };
 
-  const isValidLobbyCode = (id) => {
+  const isValidLobbyCode = () => {
+    let tableId = ref.current.value
     client
-    .get(`/table/${id}`)
-    .then((res) => {
-      console.log(res.status)
-      if(res.status === "error") return false
-      localStorage.setItem('lobby code', JSON.stringify(res.data.data.table.id));
-      return true
+    .get(`/table/${tableId}`)
+    .then(() => {
+      addUserToLobby(tableId)
     })
+    .catch((err) => {
+      console.log("did not find table", err)
+    });
   }
     
     return (
       <section className="three-columns-expand-one-three">
         <div></div>
         <div>
-          <h2>Hi {loggedInUser.username}! Would you like to create a new lobby and send a code to your friends, or join a lobby they created with their code:</h2>
+          <h2>Hi {loggedInUser.user.username}! Would you like to create a new lobby and send a code to your friends, or join a lobby they created with their code:</h2>
           <button onClick={() => {createNewTable()}}>CREATE NEW LOBBY</button>
           <div className="four-columns-expand-one-four">
             <div></div>
             <textarea ref={ref} type="text" rows="3" placeholder="enter lobby code here"></textarea>
-            <button onClick={() => {handleLobbyCodeSubmit({ref})}}>SUBMIT LOBBY CODE</button>
+            <button onClick={() => {isValidLobbyCode()}}>SUBMIT LOBBY CODE</button>
             <div></div>
           </div>
         </div>
