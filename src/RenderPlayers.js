@@ -40,7 +40,7 @@ function RenderPlayers() {
         <>
             <main>
                 <h2>Welcome to Lobby {lobbyCode}</h2>
-                <ul className='grid-template-columns'>
+                <ul className='responsive-columns'>
                   {playerList !== null && playerList.map((player) => {
                     return (
                       <li className="player-card" key={`${player.user.id}`}>
