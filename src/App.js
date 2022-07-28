@@ -4,15 +4,13 @@ import './App.css';
 import SignIn from "./SignIn";
 import { globalContext } from './helper/globalContext';
 import Lobby from "./Lobby";
-// import Table from "./Table";
+import Table from "./Table";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem('loggedInUser')));
   const [gameState, setGameState] = useState("sign in")
   const [lobbyCode, setLobbyCode]= useState(JSON.parse(localStorage.getItem('lobby code')))
   const [playerList, setPlayerList] = useState([])
-
-  //if I have a loggedInUser and I want to setLoggedInUser(id: 1), 
 
   console.log(gameState)
   console.log(loggedInUser)
@@ -35,7 +33,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/lobby/:id" element={<Lobby />}/>
-          {/* <Route path="/table/:id" element={<Table />}/> */}
+          <Route path="/table/:id" element={<Table />}/>
         </Routes>
       </main>
       </globalContext.Provider>

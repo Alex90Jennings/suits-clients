@@ -1,6 +1,14 @@
+import Header from "./Header";
+import RenderTable from "./RenderTable"
+
+
 function Table() {
+
   return (
-    <div></div>
+    <>
+      <Header />
+      <RenderTable />
+    </>
   );
 }
 

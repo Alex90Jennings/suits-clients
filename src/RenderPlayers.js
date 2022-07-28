@@ -29,6 +29,14 @@ function RenderPlayers() {
       });
     }
 
+    const startGame = () => {
+      //ask host to confirm the players
+      //lock the Table
+      //setGameStatus("start game")
+      //navigate to table/:id
+      //start game
+    }
+
     return (
         <>
             <main>
@@ -43,7 +51,7 @@ function RenderPlayers() {
                   })}
                 </ul>
                 <button onClick={() => {getAllPlayersFromLobbyId()}}>SEE OTHER PLAYERS IN LOBBY</button>
-                {host !== null && host === loggedInUser && <button>START GAME</button>}
+                {host !== null && host === loggedInUser && <button onClick={() => startGame()}>START GAME</button>}
             </main>
         </>
       );
