@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SignInPrompt() {
-  const { loggedInUser, setGameState } = useContext(globalContext)
+  const { loggedInUser, setGameState, setLobbyCode } = useContext(globalContext)
   let navigate = useNavigate();
   const ref = useRef(null);
 
@@ -14,6 +14,7 @@ function SignInPrompt() {
     .post('/table', { Users: [loggedInUser.user] })
     .then((res) => {
         const tableId = Number(res.data.data.table.id)
+        setLobbyCode(tableId)
         localStorage.setItem('lobby code', JSON.stringify(res.data.data.table.id));
         navigate(`../lobby/${tableId}`, { replace: true });
         setGameState("waiting lobby")
@@ -28,6 +29,7 @@ function SignInPrompt() {
     client
     .patch(`/user/${userId}`, {tableId: tableId})
     .then((res) => {
+        setLobbyCode(tableId)
         localStorage.setItem('lobby code', JSON.stringify(res.data.data.user.tableId));
         navigate(`../lobby/${tableId}`, { replace: true });
         setGameState("waiting lobby")

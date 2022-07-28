@@ -7,6 +7,8 @@ import { useContext } from "react";
 function SignIn() {
   const { loggedInUser, setLoggedInUser, gameState } = useContext(globalContext)
 
+  window.localStorage.clear();
+
   return (
     <>
       <Header/>

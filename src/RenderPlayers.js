@@ -3,23 +3,38 @@ import { globalContext } from './helper/globalContext';
 import { useContext } from "react";
 
 function RenderPlayers() {
-    const { lobbyCode, playerList, setPlayerList } = useContext(globalContext)
+    const { lobbyCode, playerList, setPlayerList, gameState, setGameState } = useContext(globalContext)
 
-    console.log(playerList)
+    console.log(playerList) 
+
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     const getAllPlayersFromLobbyId = () => {
+      setGameState("waiting lobby")
       client
       .get(`/user/table/${lobbyCode}`)
       .then((res) => {
         console.log(res.data.data.foundUsers.length)
         setPlayerList(res.data.data.foundUsers)
         localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
+        console.log("first")
       })
     }
 
-    // if (playerList != JSON.parse(localStorage.getItem('current lobby players'))){
-    //   getAllPlayersFromLobbyId()
-    // }
+    if (gameState === "waiting lobby"){
+      if(playerList === []) {
+        console.log("player list empty")
+        getAllPlayersFromLobbyId()
+      }
+      delay(10000).then(() => {
+        console.log("second")
+        getAllPlayersFromLobbyId()
+        setGameState("wait for lobby refresh") 
+      });
+    }
+
 
     return (
         <>
