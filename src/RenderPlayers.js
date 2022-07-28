@@ -1,11 +1,10 @@
 import client from './utils/client.js';
 import { globalContext } from './helper/globalContext';
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 function RenderPlayers() {
-    const { lobbyCode, playerList, setPlayerList, gameState, setGameState } = useContext(globalContext)
-
-    console.log(playerList) 
+    const { lobbyCode, playerList, setPlayerList, gameState, setGameState, loggedInUser } = useContext(globalContext)
+    const [host, setHost] = useState(null)
 
     function delay(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
@@ -19,22 +18,16 @@ function RenderPlayers() {
         console.log(res.data.data.foundUsers.length)
         setPlayerList(res.data.data.foundUsers)
         localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
-        console.log("first")
+        setHost(res.data.data.foundUsers[0])
       })
     }
 
     if (gameState === "waiting lobby"){
-      if(playerList === []) {
-        console.log("player list empty")
-        getAllPlayersFromLobbyId()
-      }
-      delay(10000).then(() => {
-        console.log("second")
+      delay(1000).then(() => {
         getAllPlayersFromLobbyId()
         setGameState("wait for lobby refresh") 
       });
     }
-
 
     return (
         <>
@@ -49,7 +42,8 @@ function RenderPlayers() {
                     );
                   })}
                 </ul>
-                <button onClick={() => {getAllPlayersFromLobbyId()}}>REFRESH LOBBY</button>
+                <button onClick={() => {getAllPlayersFromLobbyId()}}>SEE OTHER PLAYERS IN LOBBY</button>
+                {host !== null && host === loggedInUser && <button>START GAME</button>}
             </main>
         </>
       );
