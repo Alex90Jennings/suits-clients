@@ -54,6 +54,14 @@
   margin: 0 auto;
 }
 
+.display-inline {
+  display: inline;
+}
+
+.list-reset {
+  list-style: none !important;
+}
+
 /* GRIDS - COLUMNS */
 .responsive-columns {
   display: grid;
@@ -92,4 +100,11 @@
 /* CARDS */
 .suits-card-header {
   width: 50px;
+}
+
+.card {
+  width: 125px;
+  height: 190px;
+  padding: 10px;
+  border-radius: 20px;
 }

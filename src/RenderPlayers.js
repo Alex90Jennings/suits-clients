@@ -1,10 +1,12 @@
 import client from './utils/client.js';
 import { globalContext } from './helper/globalContext';
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function RenderPlayers() {
     const { lobbyCode, playerList, setPlayerList, gameState, setGameState, loggedInUser } = useContext(globalContext)
     const [host, setHost] = useState(null)
+    let navigate = useNavigate();
 
     function delay(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
@@ -15,7 +17,6 @@ function RenderPlayers() {
       client
       .get(`/user/table/${lobbyCode}`)
       .then((res) => {
-        console.log(res.data.data.foundUsers.length)
         setPlayerList(res.data.data.foundUsers)
         localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
         setHost(res.data.data.foundUsers[0])
@@ -32,8 +33,8 @@ function RenderPlayers() {
     const startGame = () => {
       //ask host to confirm the players
       //lock the Table
-      //setGameStatus("start game")
-      //navigate to table/:id
+      setGameState("start game")
+      navigate(`../table/${lobbyCode}`, { replace: true });
       //start game
     }
 
@@ -51,7 +52,7 @@ function RenderPlayers() {
                   })}
                 </ul>
                 <button onClick={() => {getAllPlayersFromLobbyId()}}>SEE OTHER PLAYERS IN LOBBY</button>
-                {host !== null && host === loggedInUser && <button onClick={() => startGame()}>START GAME</button>}
+                {host !== null && host.user.id === loggedInUser.user.id && <button onClick={() => startGame()}>START GAME</button>}
             </main>
         </>
       );
