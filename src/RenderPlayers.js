@@ -24,7 +24,7 @@ function RenderPlayers() {
     }
 
     if (gameState === "waiting lobby"){
-      delay(1000).then(() => {
+      delay(3000).then(() => {
         getAllPlayersFromLobbyId()
         setGameState("wait for lobby refresh") 
       });
@@ -32,7 +32,8 @@ function RenderPlayers() {
 
     const startGame = () => {
       //ask host to confirm the players
-      //lock the Table
+      //patch request table isInGame = true
+      //lock the table
       setGameState("start game")
       navigate(`../table/${lobbyCode}`, { replace: true });
       //start game

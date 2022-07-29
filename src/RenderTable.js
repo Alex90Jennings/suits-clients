@@ -1,15 +1,15 @@
-import client from './utils/client.js';
+// import client from './utils/client.js';
 import RenderCards from './RenderCards'
 import { globalContext } from './helper/globalContext';
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 function RenderPlayers() {
-    const { lobbyCode, playerList, gameState, setGameState, loggedInUser } = useContext(globalContext)
-    const [host, setHost] = useState(null)
+    const { lobbyCode } = useContext(globalContext)
+    // const [host, setHost] = useState(null)
 
-    function delay(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    // function delay(ms) {
+    //   return new Promise(resolve => setTimeout(resolve, ms));
+    // }
 
     return (
         <>
