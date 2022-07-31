@@ -25,14 +25,18 @@ function SignInPrompt() {
     return (
       <section className="three-columns-expand-one-three">
         <div></div>
-        <div>
-          <h2>Hi, welcome to Suits! Please choose a username:</h2>
+        <div className="m-bottom-l sign-in-prompt">
+          <div></div>
+          <h2>Hi, welcome to Suits! Please type a username and click on Vishnu to continue:</h2>
           <div className="four-columns-expand-one-four">
             <div></div>
-              <textarea ref={ref} type="text" rows="3" placeholder="type username here"></textarea>
-              <button onClick={() => {registerUser()}}>SUBMIT</button>
-              <div></div>
+            <textarea ref={ref} type="text" className="sign-in-textarea center text-align-center" placeholder="type username here"></textarea>
+            <button className="sign-in-button" onClick={() => {registerUser()}}>
+              <img src="../assets/diagrams/india/vishnu.png" className="button-image" alt="vishnu"></img>
+            </button>
+            <div></div>
           </div>
+          <div></div>
         </div>
         <div></div>
       </section>

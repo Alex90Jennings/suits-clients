@@ -1,19 +1,41 @@
 function Header() {
   return (
-    <header>
-      <ul className="three-columns-centered">
-        <li className="five-columns-expand-five m-left-m">
-            <img src="../assets/diagrams/suits/spade-colour.png" className="suits-card-header" alt="spade-colour"></img>
-            <img src="../assets/diagrams/suits/hearts-colour.png" className="suits-card-header" alt="hearts-colour"></img>
-            <img src="../assets/diagrams/suits/diamond-colour.png" className="suits-card-header" alt="diamond-colour"></img>
-            <img src="../assets/diagrams/suits/club-colour.png" className="suits-card-header" alt="club-colour"></img>
-        </li>
+    <header className='three-columns-centered'>
+      <div className='three-rows-expand-one-three'>
+        <div></div>
+        <div className='two-columns-expand-one'>
+          <div></div>
+          <ul>
+            <li>
+              <img src='../assets/diagrams/suits/spade-colour.png' className='suits-card-header' alt='spades'></img>
+            </li>
+            <li>
+              <img src='../assets/diagrams/suits/hearts-colour.png' className='suits-card-header' alt='heartss'></img>
+            </li>
+            <li>
+              <img src='../assets/diagrams/suits/diamond-colour.png' className='suits-card-header' alt='diamonds'></img>
+            </li>
+            <li>
+              <img src='../assets/diagrams/suits/club-colour.png' className='suits-card-header' alt='clubs'></img>
+            </li>
+          </ul>
+        </div>
+        <div></div>  
+      </div>
+      <div className='three-rows-expand-one-three'>
+        <div></div>
         <h1>SUITS</h1>
+        <div></div>
+      </div>
+      <div className='three-rows-expand-one-three'>
+        <div></div>
         <ul>
           <li>RULES</li>
+          <li>SCOREBOARD</li>
           <li>PROFILE</li>
         </ul>
-      </ul>
+        <div></div>
+      </div>
     </header>
   );
 }

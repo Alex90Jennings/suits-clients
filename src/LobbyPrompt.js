@@ -54,17 +54,26 @@ function SignInPrompt() {
     return (
       <section className="three-columns-expand-one-three">
         <div></div>
-        <div>
-          <h2>Hi {loggedInUser.user.username}! Would you like to create a new lobby and send a code to your friends, or join a lobby they created with their code:</h2>
+        <div className="m-bottom-l">
+          <h2>Hi {loggedInUser.user.username}! Would you like make a new lobby or join a lobby with a code:</h2>
           <div className="three-columns-expand-one-three">
             <div></div>
-            <button onClick={() => {createNewTable()}}>CREATE NEW LOBBY</button>
+            <div className="four-columns-expand-one-four">
+              <div></div>
+              <h3>Click on the tuc tuc to create a new lobby: </h3>
+              <button className="sign-in-button" onClick={() => {createNewTable()}}>
+                <img src="../assets/diagrams/india/tuctuc.png" className="button-image" alt="tuc-tuc"></img>
+              </button>
+              <div></div>
+            </div>
             <div></div>
           </div>
           <div className="four-columns-expand-one-four">
             <div></div>
-            <textarea ref={ref} type="text" rows="3" placeholder="enter lobby code here"></textarea>
-            <button onClick={() => {isValidLobbyCode()}}>SUBMIT LOBBY CODE</button>
+            <textarea ref={ref} type="text" className="sign-in-textarea center text-align-center" placeholder="enter lobby code here"></textarea>
+            <button className="sign-in-button"  onClick={() => {isValidLobbyCode()}}>
+              <img src="../assets/diagrams/india/cricket-bat.png" className="button-image" alt="cricket-bat"></img>
+            </button>
             <div></div>
           </div>
         </div>

@@ -5,9 +5,20 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #fce043;
+  background-image: linear-gradient(var(--primary-color-start-gradient) 0%, var(--primary-color-end-gradient) 74%);
+  color: var(--primary-color-dark);
+  font-weight: bold;
+  font-family: Tropikal;
+  height: 100vh;
+  width: 100vw;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
