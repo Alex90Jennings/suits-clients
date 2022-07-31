@@ -33,7 +33,7 @@ function App() {
         }}
       >
       <Header />
-      <div className='three-columns-expand-one-three'>
+      <div className='three-columns-expand-two'>
         <SideSection />
         <main className='center'>
           <Routes>
