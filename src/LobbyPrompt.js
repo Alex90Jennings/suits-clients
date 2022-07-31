@@ -70,7 +70,7 @@ function SignInPrompt() {
           </div>
           <div className="four-columns-expand-one-four">
             <div></div>
-            <textarea ref={ref} type="text" className="sign-in-textarea center text-align-center" placeholder="enter lobby code here"></textarea>
+            <textarea ref={ref} type="text" maxlength="3" className="sign-in-textarea center text-align-center" placeholder="enter lobby code here" onKeyPress={(e) => {e.key === 'Enter' && isValidLobbyCode()}}></textarea>
             <button className="sign-in-button"  onClick={() => {isValidLobbyCode()}}>
               <img src="../assets/diagrams/india/cricket-bat.png" className="button-image" alt="cricket-bat"></img>
             </button>
