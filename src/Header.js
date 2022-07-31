@@ -1,9 +1,13 @@
 import { useState } from "react";
-import Rules from "./Rules";
+import Rules from "./Rules.js";
+import Profile from "./Profile.js"
+import Scoreboard from "./Scoreboard.js";
 
 function Header() {
 
   const [isOpenRules, setIsOpenRules] = useState(false)
+  const [isOpenProfile, setIsOpenProfile] = useState(false)
+  const [isOpenScoreboard, setIsOpenScoreboard] = useState(false)
 
 
   return (
@@ -39,18 +43,28 @@ function Header() {
           <div></div>
           <ul>
             <li>
-              <button id='open-rules' onClick={() => {setIsOpenRules(true)}}>
+              <button onClick={() => {setIsOpenRules(true)}}>
                 RULES
               </button>
             </li>
-            <li>SCOREBOARD</li>
-            <li>PROFILE</li>
+            <li>
+              <button onClick={() => {setIsOpenScoreboard(true)}}>
+                SCOREBOARD
+              </button>
+            </li>
+            <li>
+              <button onClick={() => {setIsOpenProfile(true)}}>
+                PROFILE
+              </button>
+            </li>
           </ul>
           <div></div>
         </div>
       </header>
 
       {isOpenRules && <Rules setIsOpenRules={setIsOpenRules}/>}
+      {isOpenProfile && <Profile setIsOpenProfile={setIsOpenProfile}/>}
+      {isOpenScoreboard && <Scoreboard setIsOpenScoreboard={setIsOpenScoreboard}/>}
     </>
   );
 }
