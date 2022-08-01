@@ -5,7 +5,7 @@ import RenderTable from "./RenderTable"
 
 
 function Table() {
-  // const { gameState, setGameState } = useContext(globalContext)
+  // const { isInGame, setIsInGame } = useContext(globalContext)
   // const [cardDeck, setCardDeck] = useState([])
 
   // if (gameState = "generate card deck") {
