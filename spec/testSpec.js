@@ -62,12 +62,53 @@ describe('suits', () => {
         expect(result).toEqual("6C7H2CTH9H")
     })
 
-    fit('who won the trick', () => {
+    it('who won the trick, 2 players, no trumps', () => {
         const Suits = new GameLogic()
         const playerArray = [{username: "player1", id: 1, cards: "3CQSKHTD"}, {username: "player2", id: 2, cards: "6C7H2CTH"}]
         const result = Suits.whoWonTrick("4STS", "D", playerArray)
 
         expect(result).toEqual(playerArray[1])
+    })
+
+    it('who won the trick, 2 players, player one has trumps', () => {
+        const Suits = new GameLogic()
+        const playerArray = [{username: "player1", id: 1, cards: "3CQSKHTD"}, {username: "player2", id: 2, cards: "6C7H2CTH"}]
+        const result = Suits.whoWonTrick("4DTS", "D", playerArray)
+
+        expect(result).toEqual(playerArray[0])
+    })
+
+    it('who won the trick, 4 players, no trumps', () => {
+        const Suits = new GameLogic()
+        const playerArray = [{username: "player1", id: 1, cards: "3CQSKHTD"}, {username: "player2", id: 2, cards: "6C7H2CTH"}, {username: "player3", id: 3, cards: "QHKQASAC"}, {username: "player4", id: 4, cards: "2C4C5C7C"}]
+        const result = Suits.whoWonTrick("4DTDQDTS", "C", playerArray)
+
+        expect(result).toEqual(playerArray[2])
+    })
+
+    
+    it('who won the trick, 4 players, player four has trumps', () => {
+        const Suits = new GameLogic()
+        const playerArray = [{username: "player1", id: 1, cards: "3CQSKHTD"}, {username: "player2", id: 2, cards: "6C7H2CTH"}, {username: "player3", id: 3, cards: "QHKQASAC"}, {username: "player4", id: 4, cards: "2C4C5C7C"}]
+        const result = Suits.whoWonTrick("4DTDQDTC", "C", playerArray)
+
+        expect(result).toEqual(playerArray[3])
+    })
+
+    it('who won the trick, 4 players, player one and four has trumps', () => {
+        const Suits = new GameLogic()
+        const playerArray = [{username: "player1", id: 1, cards: "3CQSKHTD"}, {username: "player2", id: 2, cards: "6C7H2CTH"}, {username: "player3", id: 3, cards: "QHKQASAC"}, {username: "player4", id: 4, cards: "2C4C5C7C"}]
+        const result = Suits.whoWonTrick("4CTDQDTC", "C", playerArray)
+
+        expect(result).toEqual(playerArray[3])
+    })
+
+    fit('who won the trick, 4 players, player one and four has trumps', () => {
+        const Suits = new GameLogic()
+        const playerArray = [{username: "player1", id: 1, cards: "3CQSKHTD"}, {username: "player2", id: 2, cards: "6C7H2CTH"}, {username: "player3", id: 3, cards: "QHKQASAC"}, {username: "player4", id: 4, cards: "2C4C5C7C"}]
+        const result = Suits.whoWonTrick("TCTDQD4C", "C", playerArray)
+
+        expect(result).toEqual(playerArray[0])
     })
 })
 
