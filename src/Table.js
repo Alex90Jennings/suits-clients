@@ -1,11 +1,10 @@
-import Header from "./Header";
 import RenderTable from "./RenderTable"
-// import { useContext, useState } from "react";
-// import { globalContext } from './helper/globalContext';
+import { useContext, useState } from "react";
+import { globalContext } from './helper/globalContext';
 
 
 function Table() {
-  // const { isInGame, setIsInGame } = useContext(globalContext)
+  const { lobbyCode } = useContext(globalContext)
   // const [cardDeck, setCardDeck] = useState([])
 
   // if (gameState = "generate card deck") {
@@ -15,7 +14,7 @@ function Table() {
 
   return (
     <>
-      <Header />
+      <h2>Welcome to Table {lobbyCode}</h2>
       <RenderTable />
     </>
   );

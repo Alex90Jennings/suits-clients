@@ -116,6 +116,18 @@ ul {
   resize: none;
 }
 
+.lobby-player-card {
+  border: 10px solid var(--primary-color-dark);
+  border-radius: 10px;
+  text-align: center;
+  height: 300px;
+  width: 300px;
+}
+
+.lobby-grid {
+  width: 1500px;
+}
+
 /* HEADER */
 
 header {
@@ -214,6 +226,7 @@ a:focus {
 .responsive-columns {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+
   gap: 10px;
 }
 
@@ -252,10 +265,20 @@ a:focus {
   grid-template-columns: auto 1fr auto;
 }
 
+.auto-columns {
+  display: grid;
+  grid-auto-rows: auto;
+}
+
 /* GRIDS - ROWS */
 .auto-rows {
   display: grid;
   grid-auto-rows: auto;
+}
+
+.two-rows-expand-two {
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 
 .three-rows-expand-one-three {
@@ -298,6 +321,9 @@ a:focus {
   margin-top: 200px;
 }
 
+.m-l {
+  margin: 24px;
+}
 
 /* CARDS */
 .suits-card-header {
@@ -333,6 +359,10 @@ a:focus {
 
 .animal {
   width: 100px;
+}
+
+.animal-l {
+  width: 150px;
 }
 
 .button-image {

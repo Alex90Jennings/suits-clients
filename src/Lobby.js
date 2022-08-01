@@ -42,19 +42,54 @@ function Lobby() {
 
   return (
     <>
-      <main>
-          <h2>Welcome to Lobby {lobbyCode}</h2>
-          <ul className='responsive-columns'>
+      <main className='three-rows-expand-two'>
+          <div className='three-columns-expand-one-three'>
+            <div></div>
+            <h2>Welcome to Lobby {lobbyCode}</h2>
+            <div></div>
+          </div>
+          <ul className='responsive-columns lobby-grid'>
             {playerList !== null && playerList.map((player) => {
               return (
-                <li className="player-card" key={`${player.user.id}`}>
-                  <p>{player.user.username}</p>
+                <li className="lobby-player-card two-rows-expand-two display-inline center" key={`${player.user.id}`}>
+                  <h3>{player.user.username}</h3>
+                  <div className='three-columns-expand-one-three'>
+                    <div></div>
+                    <img src={`../assets/diagrams/india/${playerList.indexOf(player)}.png`} className="animal-l" alt={`animal${playerList.indexOf(player)}`} />
+                    <div></div>
+                  </div>
                 </li>
               );
             })}
           </ul>
-          <button onClick={() => {getAllPlayersFromLobbyId()}}>SEE OTHER PLAYERS IN LOBBY</button>
-          {host !== null && host.user.id === loggedInUser.user.id && <button onClick={() => startGame()}>START GAME</button>}
+          <div>
+            <div className='four-columns-expand-one-four m-top-l'>
+              <div></div>
+              <div className='display-inline three-rows-expand-one-three  m-top-l'>
+                <div></div>
+                <p>Click the bag of Gate of India to refresh see if others have joined:</p>
+                <div></div>
+              </div>
+              <button onClick={() => {getAllPlayersFromLobbyId()}} className="button-reset display-inline m-left-m m-top-l">
+                <img src='../assets/diagrams/india/gate.png' alt="rupee" className='button-image'></img>
+              </button>
+              <div></div>
+            </div>
+            {host !== null && host.user.id === loggedInUser.user.id && (
+              <div className='four-columns-expand-one-four m-top-l'>
+                <div></div>
+                <div className='display-inline three-rows-expand-one-three'>
+                  <div></div>
+                  <p className='display-inline'>Click the bag of Rupees to start the game:</p>
+                  <div></div>
+                </div>
+                <button onClick={() => startGame()} className="button-reset display-inline m-left-m">
+                  <img src='../assets/diagrams/india/rupee.png' alt="rupee" className='button-image'></img>
+                </button>
+                <div></div>
+              </div>
+            )}
+          </div>
       </main>
     </>
   );
