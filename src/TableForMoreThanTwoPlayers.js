@@ -12,7 +12,7 @@ function TableForMoreThanTwoPlayers() {
       <div className="table-rectangle center">
         <div className="three-rows-expand-one-three m-left-l">
           <div></div>
-          <ul className="center grid-template-game">
+          <ul className="center">
             {playerList.length > 2 && (
             <li id="player3" className="card">
               <p>{playerList[2].username}</p>
@@ -70,7 +70,7 @@ function TableForMoreThanTwoPlayers() {
         </div>
         <div className="three-rows-expand-one-three m-left-l">
           <div></div>
-          <ul className="center grid-template-game">
+          <ul className="center">
             <li id="player2" className="card">
               <p>{playerList[1].username}</p>
               <img className="animal center" src="../assets/diagrams/india/1.png" alt="cow"></img>

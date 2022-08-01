@@ -346,6 +346,7 @@ a:focus {
 
 .playing-card {
   width: 90px;
+  border-radius: 10px;
 }
 
 /* IMAGES */

@@ -1,5 +1,5 @@
 import TableForMoreThanTwoPlayers from './TableForMoreThanTwoPlayers.js'
-import TableForTwoPlayers from './TableForTwoPlayers'
+import TableForTwoPlayers from './TableForTwoPlayers.js'
 import { useContext } from "react";
 import { globalContext } from './helper/globalContext';
 
@@ -9,8 +9,8 @@ function Table () {
     return (
         <>
             <h2>Welcome to Table {lobbyCode}</h2>
-            {playerList.length === 2 (<TableForTwoPlayers />)}
-            {playerList.length > 2 (<TableForMoreThanTwoPlayers />)}
+            {playerList.length === 2 && (<TableForTwoPlayers />)}
+            {playerList.length > 2 && (<TableForMoreThanTwoPlayers />)}
         </>
     )
 }
