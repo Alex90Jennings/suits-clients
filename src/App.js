@@ -44,10 +44,9 @@ function App() {
         </main>
         <SideSection />
       </div>
-      <footer><Footer /></footer>
+      <Footer />
       </globalContext.Provider>
     </body>
-    
   )
 }
 

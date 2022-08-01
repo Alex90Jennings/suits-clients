@@ -30,7 +30,7 @@ function SignInPrompt() {
           <h2>Hi, welcome to Suits! Please type a username and click on Vishnu to continue:</h2>
           <div className="four-columns-expand-one-four">
             <div></div>
-            <textarea ref={ref} type="text" maxlength="12" className="sign-in-textarea center text-align-center" placeholder="type username here" onKeyPress={(e) => {e.key === 'Enter' && registerUser()}}></textarea>
+            <textarea ref={ref} type="text" maxLength={12} className="sign-in-textarea center text-align-center" placeholder="type username here" onKeyPress={(e) => {e.key === 'Enter' && registerUser()}}></textarea>
             <button className="sign-in-button" onClick={() => {registerUser()}}>
               <img src="../assets/diagrams/india/vishnu.png" className="button-image" alt="vishnu"></img>
             </button>

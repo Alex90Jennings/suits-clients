@@ -11,7 +11,7 @@ function SignInPrompt() {
 
   const createNewTable = () => {
     client
-    .post('/table', { Users: [loggedInUser.user] })
+    .post('/table', { users: [loggedInUser.user] })
     .then((res) => {
         const tableId = Number(res.data.data.table.id)
         setLobbyCode(tableId)
@@ -70,7 +70,7 @@ function SignInPrompt() {
           </div>
           <div className="four-columns-expand-one-four">
             <div></div>
-            <textarea ref={ref} type="text" maxlength="3" className="sign-in-textarea center text-align-center" placeholder="enter lobby code here" onKeyPress={(e) => {e.key === 'Enter' && isValidLobbyCode()}}></textarea>
+            <textarea ref={ref} type="text" maxLength={3} className="sign-in-textarea center text-align-center" placeholder="enter lobby code here" onKeyPress={(e) => {e.key === 'Enter' && isValidLobbyCode()}}></textarea>
             <button className="sign-in-button"  onClick={() => {isValidLobbyCode()}}>
               <img src="../assets/diagrams/india/cricket-bat.png" className="button-image" alt="cricket-bat"></img>
             </button>
