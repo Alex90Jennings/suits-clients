@@ -7,11 +7,16 @@ function Table () {
     const { playerList, lobbyCode } = useContext(globalContext)
     
     return (
-        <>
-            <h2>Welcome to Table {lobbyCode}</h2>
+        <div className='four-rows-expand-three full-height'>
+            <div className='header-height'></div>
+            <div className='three-columns-expand-two'>
+                <div></div>
+                <h2 className="notifications center">NOTIFICATIONS</h2>
+                <div></div>
+            </div>
             {playerList.length === 2 && (<TableForTwoPlayers />)}
             {playerList.length > 2 && (<TableForMoreThanTwoPlayers />)}
-        </>
+        </div>
     )
 }
 

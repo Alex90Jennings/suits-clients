@@ -19,7 +19,7 @@ function App() {
 
   console.log(gameState)
   console.log(loggedInUser)
-  console.log(playerList.length)
+  console.log(playerList)
 
   return(
     <body>
