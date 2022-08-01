@@ -32,6 +32,7 @@ html {
   --primary-color-start-gradient: #dc7e6a;
   --primary-color-end-gradient: #dfa661;
   --primary-color-dark: #47322d;
+  --header-height: 200px;
 }
 
 /* var(--primary-color-end-gradient) */
@@ -83,8 +84,12 @@ ul {
   height: 100vh;
 }
 
+.visibility-hidden {
+  visibility: hidden;
+}
+
 .header-height {
-  height: 160px;
+  height: var(--header-height);
 }
 
 .list-reset {
@@ -142,7 +147,7 @@ ul {
 /* HEADER */
 
 header {
-  height: 200px;
+  height: var(--header-height);
   position: absolute;
   top: 0;
   width: 100%;
@@ -166,7 +171,6 @@ header li {
   border-radius: 200px;
   background-color: var(--primary-color-table);
   border: solid 20px var(--primary-color-dark);
-  height: 750px;
   width: 1350px;
 }
 

@@ -5,7 +5,7 @@ import { globalContext } from './helper/globalContext';
 
 
 function TableForMoreThanTwoPlayers() {
-  const { playerList } = useContext(globalContext)
+  const { playerList, cardPlayedThisRound } = useContext(globalContext)
 
 
   return (
@@ -16,23 +16,23 @@ function TableForMoreThanTwoPlayers() {
           <ul className="center">
             {playerList.length > 2 && (
               <li id="player3" className="card">
-                <p>{playerList[2].user.username}</p>
-                <img className="animal center" src="../assets/diagrams/india/2.png" alt="elephant"></img>
+                <p>{playerList[2].user.username.toUpperCase()}</p>
+                <img className="animal center m-top-m" src="../assets/diagrams/india/2.png" alt="elephant"></img>
                 <RenderTricksWonInRound />
-                <img className="playing-card center" src="../assets/cards/red_joker.png" alt="card"></img>
+                {cardPlayedThisRound === "" && (<img className="playing-card center" src="../assets/cards/red_joker.png" alt="card"></img>)}
               </li>
             )}
             {playerList.length > 3 && (
               <li id="player4" className="card">
-                <p>{playerList[3].user.username}</p>
-                <img className="animal center" src="../assets/diagrams/diagrams/india/3.png" alt="cobra"></img>
+                <p>{playerList[3].user.username.toUpperCase()}</p>
+                <img className="animal center" src="../assets/diagrams/india/3.png" alt="cobra"></img>
                 <RenderTricksWonInRound />
                 <img className="playing-card center" src="../assets/cards/red_joker.png" alt="card"></img>
               </li>
             )}
             {playerList.length > 4 && (
               <li id="player5" className="card">
-                <p>{playerList[4].user.username}</p>
+                <p>{playerList[4].user.username.toUpperCase()}</p>
                 <img className="animal center" src="../assets/diagrams/india/4.png" alt="cow"></img>
                 <RenderTricksWonInRound />
                 <img className="playing-card center" src="../assets/cards/red_joker.png" alt="card"></img>
@@ -48,20 +48,20 @@ function TableForMoreThanTwoPlayers() {
               <img className="playing-card center" src="../assets/cards/red_joker.png" alt="card"></img>
               <RenderTricksWonInRound />
               <img className="animal center" src="../assets/diagrams/india/1.png" alt="monkey"></img>
-              <p>{playerList[1].user.username}</p>
+              <p>{playerList[1].user.username.toUpperCase()}</p>
             </li>
             <li id="player1" className="card">
-              <img className="playing-card center" src="../assets/cards/red_joker.png" alt="card"></img>
+              <img className="playing-card center" src="../assets/cards/QH.png" alt="card"></img>
               <RenderTricksWonInRound />
               <img className="animal center" src="../assets/diagrams/india/0.png" alt="tiger"></img>
-              <p>{playerList[0].user.username}</p>
+              <p>{playerList[0].user.username.toUpperCase()}</p>
             </li>
             {playerList.length > 5 && (
               <li id="player6" className="card">
                 <img className="playing-card center" src="../assets/cards/red_joker.png" alt="card"></img>
                 <RenderTricksWonInRound />
                 <img className="animal center" src="../assets/diagrams/india/5.png" alt="crocodile"></img>
-                <p>{playerList[6].user.username}</p>
+                <p>{playerList[5].user.username.toUpperCase()}</p>
               </li>             
             )}
           </ul>

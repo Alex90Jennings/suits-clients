@@ -6,6 +6,11 @@ function RenderTricksWonInRound() {
 
     return (
         <ul className="center-wrapper">
+            {/* {tricksWonInRound === 0 && ( */}
+            <li className="display-inline m-left-s">
+                    <img className="trick visibility-hidden" src="../assets/cards/card-back.png" alt="card-back"></img>
+            </li>
+            {/* )} */}
             {tricksWonInRound > 0 && (
                 <li className="display-inline m-left-s">
                     <img className="trick" src="../assets/cards/card-back.png" alt="card-back"></img>

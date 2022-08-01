@@ -67,7 +67,7 @@ function Lobby() {
               <div></div>
               <div className='display-inline three-rows-expand-one-three  m-top-l'>
                 <div></div>
-                <p>Click the bag of Gate of India to refresh see if others have joined:</p>
+                <p>Click the Gate of India to refresh see if others have joined:</p>
                 <div></div>
               </div>
               <button onClick={() => {getAllPlayersFromLobbyId()}} className="button-reset display-inline m-left-m m-top-l">

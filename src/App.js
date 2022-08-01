@@ -15,9 +15,10 @@ function App() {
   const [lobbyCode, setLobbyCode]= useState(JSON.parse(localStorage.getItem('lobby code')))
   const [playerList, setPlayerList] = useState([])
   const [isInGame, setIsInGame] = useState(false)
-  const [trumps, setTrumps] = useState(undefined)
+  const [trumps, setTrumps] = useState("")
   const [tricksWonInRound, setTricksWonInRound] = useState(0)
-  const [cards, setCards] = useState("")
+  const [cards, setCards] = useState("ASAHADAC")
+  const [cardPlayedThisRound, setCardPlayedThisRound] = useState("")
 
   console.log(gameState)
   console.log(loggedInUser)
@@ -42,7 +43,9 @@ function App() {
           tricksWonInRound,
           setTricksWonInRound,
           cards,
-          setCards
+          setCards,
+          cardPlayedThisRound,
+          setCardPlayedThisRound
         }}
       >
       <Header />
