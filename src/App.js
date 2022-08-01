@@ -16,6 +16,8 @@ function App() {
   const [playerList, setPlayerList] = useState([])
   const [isInGame, setIsInGame] = useState(false)
   const [trumps, setTrumps] = useState(undefined)
+  const [tricksWonInRound, setTricksWonInRound] = useState(0)
+  const [cards, setCards] = useState("")
 
   console.log(gameState)
   console.log(loggedInUser)
@@ -36,7 +38,11 @@ function App() {
           isInGame,
           setIsInGame,
           trumps,
-          setTrumps
+          setTrumps,
+          tricksWonInRound,
+          setTricksWonInRound,
+          cards,
+          setCards
         }}
       >
       <Header />

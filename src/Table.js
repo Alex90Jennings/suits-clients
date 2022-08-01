@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { globalContext } from './helper/globalContext';
 
 function Table () {
-    const { playerList, lobbyCode } = useContext(globalContext)
+    const { playerList } = useContext(globalContext)
     
     return (
         <div className='four-rows-expand-three full-height'>
