@@ -9,9 +9,6 @@ describe('suits', () => {
         const playerArray = [{username: "player1", id: 1, cards: ""}, {username: "player2", id: 2, cards: ""}]
         Suits.dealCardsToPlayers(cardDeck, numberOfCards, playerArray)
 
-        console.log("player 1 cards: ", playerArray[0].cards)
-        console.log("remaining cards: ", cardDeck.length)
-
         expect(playerArray[0].cards.length / 2).toEqual(2)
         expect(playerArray[1].cards.length / 2).toEqual(2)
         expect(playerArray.length).toEqual(2)
@@ -24,9 +21,6 @@ describe('suits', () => {
         const numberOfCards = 48
         const playerArray = [{username: "player1", id: 1, cards: ""}, {username: "player2", id: 2, cards: ""}, {username: "player3", id: 3, cards: ""}, {username: "player4", id: 4, cards: ""}, {username: "player5", id: 5, cards: ""}, {username: "player6", id: 6, cards: ""}]
         Suits.dealCardsToPlayers(cardDeck, numberOfCards, playerArray)
-
-        console.log("player 1 cards: ", playerArray[0].cards)
-        console.log("remaining cards: ", cardDeck.length)
 
         expect(playerArray[0].cards.length / 2).toEqual(8)
         expect(playerArray[1].cards.length / 2).toEqual(8)
