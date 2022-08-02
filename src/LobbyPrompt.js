@@ -21,6 +21,7 @@ function SignInPrompt() {
         tableId = Number(res.data.data.table.id)
         console.log(tableId)
         setLobbyCode(tableId)
+        makeLoggedInUserHost(tableId)
         localStorage.setItem('lobby code', JSON.stringify(res.data.data.table.id));
         navigate(`../lobby/${tableId}`, { replace: true });
         setGameState("waiting lobby")
@@ -29,16 +30,20 @@ function SignInPrompt() {
       console.log(err.response)
     });
 
+  };
+
+  const makeLoggedInUserHost = (tableId) => {
+    console.log("in make logged in user host")
     client
     .patch(`/user/${loggedInUser.user.id}`, { tableId: tableId, isHost: true })
-    .then((res) => {
-      console.log(`${loggedInUser.user.username} is now host`)
+    .then(() => {
+      console.log(`${loggedInUser.user.username} is now host of ${tableId}`)
       setIsHost(true)
     })
     .catch((err) => { 
       console.log(err.response)
     });
-  };
+  }
 
   const addUserToLobby = (tableId) => {
     let userId = loggedInUser.user.id
