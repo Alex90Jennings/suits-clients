@@ -16,7 +16,6 @@ function SignInPrompt() {
     .post('/table', { users: [loggedInUser.user] })
     .then((res) => {
         tableId = Number(res.data.data.table.id)
-        console.log(tableId)
         setLobbyCode(tableId)
         makeLoggedInUserHost(tableId)
         localStorage.setItem('lobby code', JSON.stringify(res.data.data.table.id));
@@ -30,7 +29,6 @@ function SignInPrompt() {
   };
 
   const makeLoggedInUserHost = (tableId) => {
-    console.log("in make logged in user host")
     client
     .patch(`/user/${loggedInUser.user.id}`, { tableId: tableId, isHost: true })
     .then(() => {

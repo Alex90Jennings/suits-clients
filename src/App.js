@@ -21,11 +21,6 @@ function App() {
   const [cardPlayedThisRound, setCardPlayedThisRound] = useState("")
   const [isHost, setIsHost] = useState(false)
 
-  console.log("game state: ", gameState)
-  console.log("logged in user: ", loggedInUser)
-  console.log("player list: ", playerList)
-  console.log("is host? ", isHost)
-
   return(
     <>
       <globalContext.Provider

@@ -9,9 +9,9 @@ function Lobby() {
   const [host, setHost] = useState(null)
   let navigate = useNavigate();
 
-  function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+  // function delay(ms) {
+  //   return new Promise(resolve => setTimeout(resolve, ms));
+  // }
   
   const getAllPlayersFromLobbyId = () => {
     setGameState("waiting lobby")
@@ -24,24 +24,24 @@ function Lobby() {
     })
   }
 
-  const refreshTable = () => {
-    client
-    .get(`/table/${lobbyCode}`)
-    .then((res) => {
-      if(res.data.data.foundTable.table.isInGame) {
-        setGameState("start game")
-        navigate(`../table/${lobbyCode}`, { replace: true })
-      }
-    })
-  }
+  // const refreshTable = () => {
+  //   client
+  //   .get(`/table/${lobbyCode}`)
+  //   .then((res) => {
+  //     if(res.data.data.foundTable.table.isInGame) {
+  //       setGameState("start game")
+  //       navigate(`../table/${lobbyCode}`, { replace: true })
+  //     }
+  //   })
+  // }
 
-  if (gameState === "waiting lobby"){
-    delay(3000).then(() => {
-      getAllPlayersFromLobbyId()
-      refreshTable()
-      setGameState("wait for lobby refresh") 
-    });
-  }
+  // if (gameState === "waiting lobby"){
+  //   delay(3000).then(() => {
+  //     getAllPlayersFromLobbyId()
+  //     refreshTable()
+  //     setGameState("wait for lobby refresh") 
+  //   });
+  // }
 
   const startGame = () => {
     client

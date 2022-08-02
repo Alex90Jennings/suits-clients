@@ -13,8 +13,11 @@ function Rules (props) {
                 </div>
                 <h1>RULES</h1>
                 <h2>SETTING UP THE GAME</h2>
+                    <p></p>
                 <h2>THE TABLE</h2>
                 <h2>HOW TO PLAY</h2>
+                    <p>Rules</p>
+                    <p>In clockwise order, each play a card to the trick and must follow suit by playing a card of the suit led if held. A player with no card of the suit led may play any card, either discarding or trumping.</p>
                 <h2>WHO WINS</h2>
                 <p>Get the most points to win</p>
                 <p>Click the tabla drum to return to the game</p>
