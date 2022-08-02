@@ -12,7 +12,7 @@ function Lobby() {
   function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
-
+  
   const getAllPlayersFromLobbyId = () => {
     setGameState("waiting lobby")
     client
@@ -24,20 +24,30 @@ function Lobby() {
     })
   }
 
+  const refreshTable = () => {
+    client
+    .get(`/table/${lobbyCode}`)
+    .then((res) => {
+      if(res.data.data.foundTable.table.isInGame) {
+        setGameState("start game")
+        navigate(`../table/${lobbyCode}`, { replace: true })
+      }
+    })
+  }
+
   if (gameState === "waiting lobby"){
     delay(3000).then(() => {
       getAllPlayersFromLobbyId()
+      refreshTable()
       setGameState("wait for lobby refresh") 
     });
   }
 
   const startGame = () => {
-    //ask host to confirm the players
-    //patch request table isInGame = true
-    //lock the table
+    client
+    .patch(`/table/${lobbyCode}`, {isInGame: true})
     setGameState("start game")
     navigate(`../table/${lobbyCode}`, { replace: true });
-    //start game
   }
 
   return (

@@ -9,9 +9,6 @@ function SignInPrompt() {
   let navigate = useNavigate();
   const ref = useRef(null);
 
-  console.log(loggedInUser.user)
-  console.log(loggedInUser.user.id)
-
   const createNewTable = () => {
     let tableId
 
