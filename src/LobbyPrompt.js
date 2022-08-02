@@ -5,19 +5,35 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SignInPrompt() {
-  const { loggedInUser, setGameState, setLobbyCode } = useContext(globalContext)
+  const { loggedInUser, setGameState, setLobbyCode, setIsHost } = useContext(globalContext)
   let navigate = useNavigate();
   const ref = useRef(null);
 
+  console.log(loggedInUser.user)
+  console.log(loggedInUser.user.id)
+
   const createNewTable = () => {
+    let tableId
+
     client
     .post('/table', { users: [loggedInUser.user] })
     .then((res) => {
-        const tableId = Number(res.data.data.table.id)
+        tableId = Number(res.data.data.table.id)
+        console.log(tableId)
         setLobbyCode(tableId)
         localStorage.setItem('lobby code', JSON.stringify(res.data.data.table.id));
         navigate(`../lobby/${tableId}`, { replace: true });
         setGameState("waiting lobby")
+    })
+    .catch((err) => { 
+      console.log(err.response)
+    });
+
+    client
+    .patch(`/user/${loggedInUser.user.id}`, { tableId: tableId, isHost: true })
+    .then((res) => {
+      console.log(`${loggedInUser.user.username} is now host`)
+      setIsHost(true)
     })
     .catch((err) => { 
       console.log(err.response)

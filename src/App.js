@@ -17,15 +17,16 @@ function App() {
   const [isInGame, setIsInGame] = useState(false)
   const [trumps, setTrumps] = useState("")
   const [tricksWonInRound, setTricksWonInRound] = useState(0)
-  const [cards, setCards] = useState("ASAHADAC")
+  const [cards, setCards] = useState("")
   const [cardPlayedThisRound, setCardPlayedThisRound] = useState("")
+  const [isHost, setIsHost] = useState(false)
 
-  console.log(gameState)
-  console.log(loggedInUser)
-  console.log(playerList)
+  console.log("game state: ", gameState)
+  console.log("logged in user: ", loggedInUser)
+  console.log("player list: ", playerList)
 
   return(
-    <body>
+    <>
       <globalContext.Provider
         value={{
           loggedInUser,
@@ -45,7 +46,9 @@ function App() {
           cards,
           setCards,
           cardPlayedThisRound,
-          setCardPlayedThisRound
+          setCardPlayedThisRound,
+          isHost,
+          setIsHost
         }}
       >
       <Header />
@@ -62,7 +65,7 @@ function App() {
       </div>
       <Footer />
       </globalContext.Provider>
-    </body>
+    </>
   )
 }
 
