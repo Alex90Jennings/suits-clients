@@ -8,6 +8,8 @@ import Lobby from "./Lobby.js";
 import Table from "./Table.js";
 import Header from './Header.js';
 import SideSection from './SideSection';
+import client from './utils/client.js';
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem('loggedInUser')));
@@ -20,6 +22,35 @@ function App() {
   const [cards, setCards] = useState("")
   const [cardPlayedThisRound, setCardPlayedThisRound] = useState("")
   const [isHost, setIsHost] = useState(false)
+  const [host, setHost] = useState(null)
+  const [currentPlayerState, setCurrentPlayerState] = useState({})
+  const [numberOfCards, setNumberOfCards] = useState(8)
+
+  let navigate = useNavigate();
+
+  const refreshTable = () => {
+    client
+    .get(`/table/${lobbyCode}`)
+    .then((res) => {
+      console.log("refresh table")
+      if(res.data.data.foundTable.table.isInGame) {
+        setGameState("start game")
+        navigate(`../table/${lobbyCode}`, { replace: true })
+      }
+    })
+    getAllPlayersFromLobbyId()
+  }
+
+  const getAllPlayersFromLobbyId = () => {
+    client
+    .get(`/user/table/${lobbyCode}`)
+    .then((res) => {
+      setPlayerList(res.data.data.foundUsers)
+      localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
+      setHost(res.data.data.foundUsers[0])
+    })
+  }
+
 
   return(
     <>
@@ -44,7 +75,15 @@ function App() {
           cardPlayedThisRound,
           setCardPlayedThisRound,
           isHost,
-          setIsHost
+          setIsHost,
+          refreshTable,
+          getAllPlayersFromLobbyId,
+          host,
+          setHost,
+          currentPlayerState,
+          setCurrentPlayerState,
+          numberOfCards,
+          setNumberOfCards
         }}
       >
       <Header />
