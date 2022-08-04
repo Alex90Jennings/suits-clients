@@ -15,10 +15,6 @@ class GameLogic {
             const cardsToPatchPlayerJ = cardsToDeal.splice(0, numberOfCardsEach)
             cardsToPatchPlayerJString = cardsToPatchPlayerJ.join("").toString()
             playerArray[j].cards = cardsToPatchPlayerJString
-            // console.log(`${playerArray[j].username} with id ${playerArray[j].id} recieves the cards ${cardsToPatchPlayerJToString}`)
-            //patch request
-            //client
-            //patch (/user/${playerArray[j].id}/cards, cardsToPatch)
         }
     };
 

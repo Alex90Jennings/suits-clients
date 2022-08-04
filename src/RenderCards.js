@@ -61,7 +61,7 @@ function RenderCards() {
             )}
             {cards.length > 15 && (
               <li className="display-inline" key={`${cards[14]}${cards[15]}`}>
-                <button className="button-reset" onClick={() => {playedCard(`${cards[0]}${cards[1]}`)}}>
+                <button className="button-reset" onClick={() => {playedCard(`${cards[14]}${cards[15]}`)}}>
                     <img src={`../assets/cards/${cards[14]}${cards[15]}.png`} className="playing-cards" alt={`${cards[14]}${cards[15]}`} />
                 </button>
               </li>
@@ -71,5 +71,3 @@ function RenderCards() {
     }
     
     export default RenderCards;
-
-    // ../assets/diagrams/suits/spade-colour.png

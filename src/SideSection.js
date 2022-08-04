@@ -24,6 +24,9 @@ function SideSection () {
         .then((res) => {
         if(res.data.data.foundTable.table.isInGame) {
             if(gameState === "waiting lobby") setGameState("start game")
+            if(gameState === "retrieve cards") {
+
+            }
             navigate(`../table/${lobbyCode}`, { replace: true })
         }
         })

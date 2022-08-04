@@ -25,6 +25,7 @@ function App() {
   const [host, setHost] = useState(null)
   const [currentPlayerState, setCurrentPlayerState] = useState({})
   const [numberOfCards, setNumberOfCards] = useState(8)
+  const [bet, setBet] = useState(0)
 
   let navigate = useNavigate();
 
@@ -32,7 +33,6 @@ function App() {
     client
     .get(`/table/${lobbyCode}`)
     .then((res) => {
-      console.log("refresh table")
       if(res.data.data.foundTable.table.isInGame) {
         setGameState("start game")
         navigate(`../table/${lobbyCode}`, { replace: true })
@@ -83,7 +83,9 @@ function App() {
           currentPlayerState,
           setCurrentPlayerState,
           numberOfCards,
-          setNumberOfCards
+          setNumberOfCards,
+          bet,
+          setBet
         }}
       >
       <Header />

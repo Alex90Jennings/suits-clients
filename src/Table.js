@@ -6,9 +6,7 @@ import { globalContext } from './helper/globalContext';
 import client from './utils/client.js';
 
 function Table () {
-    const { playerList, gameState, setGameState, isHost, cards, setCards, loggedInUser, currentPlayerState, setCurrentPlayerState } = useContext(globalContext)
-    console.log("game state: ", gameState)
-    console.log(cards)
+    const { playerList, gameState, setGameState, isHost, setCards, loggedInUser, setCurrentPlayerState, numberOfCards } = useContext(globalContext)
 
     const retrieveCardsToDeal = () => {
         const cardDeck = ["2C","3C","4C","5C","6C","7C","8C","9C","TC","JC","QC","KC","AC","2D","3D","4D","5D","6D","7D","8D","9D","TD","JD","QD","KD","AD","2H","3H","4H","5H","6H","7H","8H","9H","TH","JH","QH","KH","AH","2S","3S","4S","5S","6S","7S","8S","9S","TS","JS","QS","KS","AS"]
@@ -25,69 +23,57 @@ function Table () {
         return cardsToDeal
     }
 
-    const findPlayerStatesIdArray = (playerList) => {
+    const findPlayerStatesId = (playerList) => {
         for (let j = 0; j < playerList.length; j++){
             const userId = playerList[j].user.id
             client
             .get(`/user/${userId}/playerStates`)
             .then((res) => {
                 const mostRecentPlayerState = res.data.data.foundPlayerStates.pop()
-                console.log(mostRecentPlayerState)
-                console.log(mostRecentPlayerState.playerState.id)
                 patchCardsToPlayers(mostRecentPlayerState.playerState.id)
             })
         }
     }
 
     const patchCardsToPlayers = (playerStateId) => {
-        console.log("in deal cards to players")
         const cardsToDeal = retrieveCardsToDeal()
-        console.log("cards to deal: ", cardsToDeal)
 
-        const numberOfCardsEach = 8
+        const numberOfCardsEach = numberOfCards
         const cardsToPatchPlayer = cardsToDeal.splice(0, numberOfCardsEach)
         const cardsToPatchPlayerString = cardsToPatchPlayer.join("").toString()
-        console.log("cards to patch: ", cardsToPatchPlayerString)
-
-        console.log(playerStateId)
         
         client
         .patch(`/user/playerState/${playerStateId}`, {hand: cardsToPatchPlayerString})
         .then((res) => {
-            console.log(`player state ${playerStateId} recieved ${res.data.data.playerState.hand}`)
+            setGameState("retrieve cards")
         })
     };
 
-    const fetchCardsFromPlayerStates = () => {
+    const fetchCardsFromPlayerState = () => {
         const userId = loggedInUser.user.id
         client
         .get(`/user/${userId}/playerStates`)
         .then((res) => {
-            setCurrentPlayerState(res.data.data.foundPlayerStates.pop())
-            setCards(currentPlayerState.playerState.hand)
+            const mostRecentPlayerState = res.data.data.foundPlayerStates.pop()
+            setCurrentPlayerState(mostRecentPlayerState)
+            setCards(mostRecentPlayerState.playerState.hand)
             setGameState("wait for bets")
         })
     }
 
     if (gameState === "start game") {
-        setGameState("deal cards")
-        if(isHost) findPlayerStatesIdArray(playerList)
+        if(isHost){
+            findPlayerStatesId(playerList)
+            setGameState("deal cards")
+        }
+        if(!isHost) {
+            fetchCardsFromPlayerState()
+        }
     }
 
     if (gameState==="retrieve cards"){
-        fetchCardsFromPlayerStates()
+        fetchCardsFromPlayerState()
     }
-
-    // const refreshTable = () => {
-    //     client
-    //     .get(`/table/${lobbyCode}`)
-    //     .then((res) => {
-    //       if(res.data.data.foundTable.table.isInGame) {
-    //         setGameState("start game")
-    //         navigate(`../table/${lobbyCode}`, { replace: true })
-    //       }
-    //     })
-    // }
     
     return (
         <div className='four-rows-expand-three full-height'>
