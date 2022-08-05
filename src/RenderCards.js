@@ -4,18 +4,9 @@ import client from './utils/client';
 
 function RenderCards() {
     const { cards, setCards, currentPlayerState, setCurrentPlayerState } = useContext(globalContext)
-
     
     const playedCard = (cardStr, index) => {
-      console.log(currentPlayerState)
       const playerStateId = currentPlayerState.id
-      // if(isHost) playerStateId = currentPlayerState.playerState.id
-      // if(!isHost) playerStateId = currentPlayerState.id
-      console.log(cards.length)
-      cards.substr(index, 2)
-      console.log(cards, cards.length)
-      console.log(currentPlayerState)
-      console.log(currentPlayerState.id)
       client
       .patch(`/user/playerState/${playerStateId}`, {playedCard: cardStr, hand: cards})
       .then((res) => {
