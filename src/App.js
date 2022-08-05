@@ -17,7 +17,7 @@ function App() {
   const [lobbyCode, setLobbyCode]= useState(JSON.parse(localStorage.getItem('lobby code')))
   const [playerList, setPlayerList] = useState([])
   const [isInGame, setIsInGame] = useState(false)
-  const [trumps, setTrumps] = useState("")
+  const [trumps, setTrumps] = useState("S")
   const [tricksWonInRound, setTricksWonInRound] = useState(0)
   const [cards, setCards] = useState("")
   const [cardPlayedThisRound, setCardPlayedThisRound] = useState("")

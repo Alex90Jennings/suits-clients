@@ -14,7 +14,6 @@ function SideSection () {
         .then((res) => {
           setPlayerList(res.data.data.foundUsers)
           localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
-          setHost(res.data.data.foundUsers[0])
         })
     }
 
@@ -30,18 +29,18 @@ function SideSection () {
         })
     }
 
-        const checkIfEveryoneHasBet = () => {
-            let playersWhoHaveBet = 0
-            client
-            .get(`/user/table/${lobbyCode}`)
-            .then((res) => {
-                for(let i = 0; i<playerList.length; i++) {
-                    const mostRecentPlayerState = res.data.data.foundUsers[i].user.playerStates.pop()
-                    if(mostRecentPlayerState.bet !== null) playersWhoHaveBet++
-                    if(playersWhoHaveBet === playerList.length) setGameState("decide who plays next")
-                }
-            })
-        }
+    const checkIfEveryoneHasBet = () => {
+        let playersWhoHaveBet = 0
+        client
+        .get(`/user/table/${lobbyCode}`)
+        .then((res) => {
+            for(let i = 0; i<playerList.length; i++) {
+                const mostRecentPlayerState = res.data.data.foundUsers[i].user.playerStates.pop()
+                if(mostRecentPlayerState.bet !== null) playersWhoHaveBet++
+                if(playersWhoHaveBet === playerList.length) setGameState("decide who plays next")
+            }
+        })
+    }
 
     return (
         <section className='five-rows-expand-one-five side-section'>

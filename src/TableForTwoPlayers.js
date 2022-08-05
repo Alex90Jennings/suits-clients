@@ -23,9 +23,11 @@ function TableForMoreThanTwoPlayers() {
     return newIndex
   }
 
-  const playerStateIndex = () => {
-    return 8 - numberOfCards
-  }
+  console.log(playerList)
+
+  // const playerStateIndex = () => {
+  //   return 8 - numberOfCards
+  // }
 
   // const retrieveBet = (index) => {
   //   client
@@ -50,8 +52,8 @@ function TableForMoreThanTwoPlayers() {
               </div>
               <img className="animal center" src={`../assets/diagrams/india/${shiftIndex(1)}.png`} alt="animal"></img>
               <RenderTricksWonInRound />
-              {playerList[shiftIndex(1)].user.playerStates[playerStateIndex()].playedCard === null && <img className="playing-card center" src={`../assets/cards/red_joker.png`} alt="card"></img>}
-              {playerList[shiftIndex(1)].user.playerStates[playerStateIndex()].playedCard !== null && <img className="playing-card center" src={`../assets/cards/${playerList[shiftIndex(1)].user.playedCard[0]}${playerList[shiftIndex(1)].user.playedCard[1]}.png`} alt="card"></img>}
+              {playerList[shiftIndex(1)].user.playerStates[0].playedCard === null && <img className="playing-card center" src={`../assets/cards/red_joker.png`} alt="card"></img>}
+              {playerList[shiftIndex(1)].user.playerStates[0].playedCard !== null && <img className="playing-card center" src={`../assets/cards/${playerList[shiftIndex(1)].user.playerStates[0].playedCard[0]}${playerList[shiftIndex(1)].user.playerStates[0].playedCard[1]}.png`} alt="card"></img>}
               {/* <img className="playing-card center" src="../assets/cards/red_joker.png" alt="card"></img> */}
             </li>
           </ul>
@@ -61,11 +63,11 @@ function TableForMoreThanTwoPlayers() {
           <div></div>
           <ul className="center">
             <li id="player1" className="card">
-              {playerList[shiftIndex(0)].user.playerStates[playerStateIndex()].playedCard === null && <img className="playing-card center" src={`../assets/cards/red_joker.png`} alt="card"></img>}
-              {playerList[shiftIndex(0)].user.playerStates[playerStateIndex()].playedCard !== null && <img className="playing-card center" src={`../assets/cards/${playerList[shiftIndex(0)].user.playedCard[0]}${playerList[shiftIndex(0)].user.playedCard[1]}.png`} alt="card"></img>}
+              {playerList[shiftIndex(0)].user.playerStates[0].playedCard === null && <img className="playing-card center" src={`../assets/cards/red_joker.png`} alt="card"></img>}
+              {playerList[shiftIndex(0)].user.playerStates[0].playedCard !== null && <img className="playing-card center" src={`../assets/cards/${playerList[shiftIndex(0)].user.playerStates[0].playedCard[0]}${playerList[shiftIndex(0)].user.playerStates[0].playedCard[1]}.png`} alt="card"></img>}
               <RenderTricksWonInRound />
               <img className="animal center" src={`../assets/diagrams/india/${shiftIndex(0)}.png`} alt="tiger"></img>
-              <p>{playerList[shiftIndex(0)].user.username.toUpperCase()} {bet !== null && - {bet}}</p>
+              <p>{playerList[shiftIndex(0)].user.username.toUpperCase()} {bet !== null && ` - ${bet}`}</p>
             </li>
           </ul>          
           <div></div>

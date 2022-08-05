@@ -31,10 +31,7 @@ function SignInPrompt() {
   const makeLoggedInUserHost = (tableId) => {
     client
     .patch(`/user/${loggedInUser.user.id}`, { tableId: tableId, isHost: true })
-    .then(() => {
-      console.log(`${loggedInUser.user.username} is now host of ${tableId}`)
-      setIsHost(true)
-    })
+    .then(() => {setIsHost(true)})
     .catch((err) => { 
       console.log(err.response)
     });

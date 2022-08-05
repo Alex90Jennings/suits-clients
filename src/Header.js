@@ -9,8 +9,7 @@ function Header() {
   const [isOpenRules, setIsOpenRules] = useState(false)
   const [isOpenProfile, setIsOpenProfile] = useState(false)
   const [isOpenScoreboard, setIsOpenScoreboard] = useState(false)
-
-
+  
   return (
     <>
       <header className='three-columns-centered'>
@@ -21,23 +20,23 @@ function Header() {
             <ul>
               <li>
                 {!isInGame && (<img src='../assets/diagrams/suits/spade-colour.png' className='suits-card-header' alt='spades'></img>)} 
-                {isInGame && trumps === "S" (<img src='../assets/diagrams/suits/spade-colour.png' className='suits-card-header' alt='spades'></img>)}
-                {isInGame && trumps !== "S" (<img src='../assets/diagrams/suits/spade-bw.png' className='suits-card-header' alt='spades'></img>)}
+                {isInGame && trumps === "S" && (<img src='../assets/diagrams/suits/spade-colour.png' className='suits-card-header' alt='spades'></img>)}
+                {isInGame && trumps !== "S" && (<img src='../assets/diagrams/suits/spade-bw.png' className='suits-card-header' alt='spades'></img>)}
               </li>
               <li>
                 {!isInGame && (<img src='../assets/diagrams/suits/hearts-colour.png' className='suits-card-header' alt='hearts'></img>)} 
-                {isInGame && trumps === "H" (<img src='../assets/diagrams/suits/hearts-colour.png' className='suits-card-header' alt='hearts'></img>)}
-                {isInGame && trumps !== "H" (<img src='../assets/diagrams/suits/heart-bw.png' className='suits-card-header' alt='hearts'></img>)}
+                {isInGame && trumps === "H" && (<img src='../assets/diagrams/suits/hearts-colour.png' className='suits-card-header' alt='hearts'></img>)}
+                {isInGame && trumps !== "H" && (<img src='../assets/diagrams/suits/heart-bw.png' className='suits-card-header' alt='hearts'></img>)}
               </li>
               <li>
                 {!isInGame && (<img src='../assets/diagrams/suits/diamond-colour.png' className='suits-card-header' alt='diamonds'></img>)} 
-                {isInGame && trumps === "D" (<img src='../assets/diagrams/suits/diamond-colour.png' className='suits-card-header' alt='diamonds'></img>)}
-                {isInGame && trumps !== "D" (<img src='../assets/diagrams/suits/diamond-bw.png' className='suits-card-header' alt='diamonds'></img>)}
+                {isInGame && trumps === "D" && (<img src='../assets/diagrams/suits/diamond-colour.png' className='suits-card-header' alt='diamonds'></img>)}
+                {isInGame && trumps !== "D" && (<img src='../assets/diagrams/suits/diamond-bw.png' className='suits-card-header' alt='diamonds'></img>)}
               </li>
               <li>
                 {!isInGame && (<img src='../assets/diagrams/suits/club-colour.png' className='suits-card-header' alt='clubs'></img>)} 
-                {isInGame && trumps === "C" (<img src='../assets/diagrams/suits/club-colour.png' className='suits-card-header' alt='clubs'></img>)}
-                {isInGame && trumps !== "C" (<img src='../assets/diagrams/suits/club-bw.png' className='suits-card-header' alt='clubs'></img>)}
+                {isInGame && trumps === "C" && (<img src='../assets/diagrams/suits/club-colour.png' className='suits-card-header' alt='clubs'></img>)}
+                {isInGame && trumps !== "C" && (<img src='../assets/diagrams/suits/club-bw.png' className='suits-card-header' alt='clubs'></img>)}
               </li>
             </ul>
           </div>

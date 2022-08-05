@@ -6,7 +6,7 @@ import { globalContext } from './helper/globalContext';
 import client from './utils/client.js';
 
 function Table () {
-    const { playerList, gameState, setGameState, isHost, setCards, loggedInUser, setCurrentPlayerState, numberOfCards, lobbyCode, setRoundId } = useContext(globalContext)
+    const { playerList, gameState, setGameState, isHost, setCards, loggedInUser, setCurrentPlayerState, numberOfCards, lobbyCode, setRoundId, setIsInGame } = useContext(globalContext)
 
     // const newCardDeck = () => {
     //     const suits = ["C", "D", "H", "S"];
@@ -71,7 +71,7 @@ function Table () {
         .get(`/user/${userId}/playerStates`)
         .then((res) => {
             const mostRecentPlayerState = res.data.data.foundPlayerStates.pop()
-            setCurrentPlayerState(mostRecentPlayerState)
+            setCurrentPlayerState(mostRecentPlayerState.playerState)
             setCards(mostRecentPlayerState.playerState.hand)
             setGameState("wait for bets")
         })
@@ -82,7 +82,6 @@ function Table () {
         .get(`/table/${lobbyCode}`)
         .then((res) => {
             const mostRecentRoundId = res.data.data.foundTable.table.rounds.pop()
-            console.log(mostRecentRoundId.id)
             setRoundId(mostRecentRoundId.id)
         })
     }
@@ -92,21 +91,19 @@ function Table () {
             if(playerList[i].user.id === loggedInUser.user.id) return i
         }
     }
+
     const fetchMostRecentPlayerStateId = () => {
         const userIndex = findIndexOfPlayerInPlayerList()
-        console.log(userIndex)
         client
         .get(`/table/${lobbyCode}`)
         .then((res) => {
-            const mostRecentPlayerStateId = res.data.data.foundTable.table.users[userIndex].playerStates.pop()
-            console.log(mostRecentPlayerStateId.id)
-            setCurrentPlayerState(mostRecentPlayerStateId)
+            const mostRecentPlayerState = res.data.data.foundTable.table.users[userIndex].playerStates.pop()
+            setCurrentPlayerState(mostRecentPlayerState)
         })
     }
 
-
-
     if (gameState === "start game") {
+        setIsInGame(true)
         fetchMostRecentRoundId()
         fetchMostRecentPlayerStateId()
         if(isHost){
@@ -127,6 +124,8 @@ function Table () {
         
     }
     
+    console.log(playerList)
+
     return (
         <div className='full-height'>
             <div className='header-height'></div>
