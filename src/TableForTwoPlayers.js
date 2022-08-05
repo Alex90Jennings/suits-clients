@@ -5,7 +5,7 @@ import { globalContext } from './helper/globalContext';
 
 
 function TableForMoreThanTwoPlayers() {
-  const { playerList, loggedInUser } = useContext(globalContext)
+  const { playerList, loggedInUser, bet, numberOfCards } = useContext(globalContext)
 
   const findIndexOfLoggedInUser = () => {
     for (let i = 0; i < playerList.length; i++){
@@ -23,6 +23,21 @@ function TableForMoreThanTwoPlayers() {
     return newIndex
   }
 
+  const playerStateIndex = () => {
+    return 8 - numberOfCards
+  }
+
+  // const retrieveBet = (index) => {
+  //   client
+  //   .get(`/user/table/${lobbyCode}`)
+  //   .then((res) => {
+  //     const mostRecentPlayerState = res.data.data.foundUsers[index].user.playerStates.pop()
+  //     const bet = mostRecentPlayerState.bet
+  //     console.log(bet)
+  //     return bet
+  //   })
+  // }
+
   return (
     <>
       <div className="table-rectangle center">
@@ -30,10 +45,14 @@ function TableForMoreThanTwoPlayers() {
           <div></div>
           <ul className="center">
             <li id="player2" className="card">
-              <p>{playerList[shiftIndex(1)].user.username.toUpperCase()}</p>
+              <div>
+                <p>{playerList[shiftIndex(1)].user.username.toUpperCase()} {bet !== null && ` - ${bet}`}</p>
+              </div>
               <img className="animal center" src={`../assets/diagrams/india/${shiftIndex(1)}.png`} alt="animal"></img>
               <RenderTricksWonInRound />
-              <img className="playing-card center" src="../assets/cards/red_joker.png" alt="card"></img>
+              {playerList[shiftIndex(1)].user.playerStates[playerStateIndex()].playedCard === null && <img className="playing-card center" src={`../assets/cards/red_joker.png`} alt="card"></img>}
+              {playerList[shiftIndex(1)].user.playerStates[playerStateIndex()].playedCard !== null && <img className="playing-card center" src={`../assets/cards/${playerList[shiftIndex(1)].user.playedCard[0]}${playerList[shiftIndex(1)].user.playedCard[1]}.png`} alt="card"></img>}
+              {/* <img className="playing-card center" src="../assets/cards/red_joker.png" alt="card"></img> */}
             </li>
           </ul>
           <div></div>
@@ -42,10 +61,11 @@ function TableForMoreThanTwoPlayers() {
           <div></div>
           <ul className="center">
             <li id="player1" className="card">
-              <img className="playing-card center" src={`../assets/cards/red_joker.png`} alt="card"></img>
+              {playerList[shiftIndex(0)].user.playerStates[playerStateIndex()].playedCard === null && <img className="playing-card center" src={`../assets/cards/red_joker.png`} alt="card"></img>}
+              {playerList[shiftIndex(0)].user.playerStates[playerStateIndex()].playedCard !== null && <img className="playing-card center" src={`../assets/cards/${playerList[shiftIndex(0)].user.playedCard[0]}${playerList[shiftIndex(0)].user.playedCard[1]}.png`} alt="card"></img>}
               <RenderTricksWonInRound />
               <img className="animal center" src={`../assets/diagrams/india/${shiftIndex(0)}.png`} alt="tiger"></img>
-              <p>{playerList[shiftIndex(0)].user.username.toUpperCase()}</p>
+              <p>{playerList[shiftIndex(0)].user.username.toUpperCase()} {bet !== null && - {bet}}</p>
             </li>
           </ul>          
           <div></div>

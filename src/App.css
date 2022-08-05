@@ -178,6 +178,23 @@ header li {
   margin: 0;
 }
 
+.bet-button {
+  font-size: 2rem;
+  color: var(--primary-color-dark);
+  padding: 20px;
+  border: 5px solid var(--primary-color-dark);
+  background-color: var(--primary-color-table);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.bet-button-li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
 /* POPUPS */
 header button {
   background: none;
@@ -245,6 +262,13 @@ a:focus {
 .responsive-columns {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+
+  gap: 10px;
+}
+
+.responsive-columns-bet-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
 
   gap: 10px;
 }

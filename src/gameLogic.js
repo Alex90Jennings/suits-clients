@@ -18,6 +18,24 @@ class GameLogic {
         }
     };
 
+    newCardDeck () {
+        const suits = ["C", "D", "H", "S"];
+        const cards = [];
+        for (let i = 0; i < suits.length; i++) {
+          for (let j = 2; j < 15; j++) {
+            let number = j
+            if (number === 10) number = "T"
+            if (number === 11) number = "J"
+            if (number === 12) number = "Q"
+            if (number === 13) number = "K"
+            if (number === 14) number = "A"
+            const card = `${number}${suits[i]}`;
+            cards.push(card);
+          }
+        }
+        return cards
+    }
+
     validCardsInHand (firstCardPlayed, playerCards) {
         const suitOfFirstCard = firstCardPlayed[1]
         let validCards = ""

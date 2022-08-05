@@ -4,7 +4,7 @@ import client from './utils/client.js';
 import { useNavigate } from "react-router-dom";
 
 function SideSection () {
-    const { lobbyCode, setPlayerList, setHost, gameState, setGameState } = useContext(globalContext)
+    const { lobbyCode, playerList, setPlayerList, setHost, gameState, setGameState } = useContext(globalContext)
     let navigate = useNavigate();
 
 
@@ -16,21 +16,32 @@ function SideSection () {
           localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
           setHost(res.data.data.foundUsers[0])
         })
-      }
+    }
 
-        const refreshTable = () => {
+    const refreshTable = () => {
         client
         .get(`/table/${lobbyCode}`)
         .then((res) => {
-        if(res.data.data.foundTable.table.isInGame) {
-            if(gameState === "waiting lobby") setGameState("start game")
-            if(gameState === "retrieve cards") {
-
-            }
-            navigate(`../table/${lobbyCode}`, { replace: true })
-        }
+            if(gameState === "waiting lobby"){
+                setGameState("start game")
+                navigate(`../table/${lobbyCode}`, { replace: true })
+            } 
+            if(gameState === "decide who plays next" || gameState === "wait for card") setPlayerList(res.data.data.foundUsers)
         })
     }
+
+        const checkIfEveryoneHasBet = () => {
+            let playersWhoHaveBet = 0
+            client
+            .get(`/user/table/${lobbyCode}`)
+            .then((res) => {
+                for(let i = 0; i<playerList.length; i++) {
+                    const mostRecentPlayerState = res.data.data.foundUsers[i].user.playerStates.pop()
+                    if(mostRecentPlayerState.bet !== null) playersWhoHaveBet++
+                    if(playersWhoHaveBet === playerList.length) setGameState("decide who plays next")
+                }
+            })
+        }
 
     return (
         <section className='five-rows-expand-one-five side-section'>
@@ -39,6 +50,7 @@ function SideSection () {
             <button onClick={() => {
                 getAllPlayersFromLobbyId()
                 refreshTable()
+                if (gameState==="wait for bets") checkIfEveryoneHasBet()
             }} className="button-reset">
                 <img className='palace' src='../assets/diagrams/india/palace.png' alt='palace'></img>
             </button>

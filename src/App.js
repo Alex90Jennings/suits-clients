@@ -25,7 +25,8 @@ function App() {
   const [host, setHost] = useState(null)
   const [currentPlayerState, setCurrentPlayerState] = useState({})
   const [numberOfCards, setNumberOfCards] = useState(8)
-  const [bet, setBet] = useState(0)
+  const [bet, setBet] = useState(null)
+  const [roundId, setRoundId] = useState(0)
 
   let navigate = useNavigate();
 
@@ -85,7 +86,9 @@ function App() {
           numberOfCards,
           setNumberOfCards,
           bet,
-          setBet
+          setBet,
+          roundId,
+          setRoundId
         }}
       >
       <Header />
