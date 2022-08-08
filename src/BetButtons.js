@@ -5,8 +5,6 @@ import client from "./utils/client";
 function BetButtons() {
     const { setBet, numberOfCards, currentPlayerState } = useContext(globalContext)
 
-    console.log(currentPlayerState)
-
     const patchBet = (bet) => {
         const playerStateId = currentPlayerState.id
         // if(isHost) playerStateId = currentPlayerState.playerState.id
