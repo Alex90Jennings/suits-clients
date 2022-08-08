@@ -34,13 +34,13 @@ function App() {
     client
     .get(`/table/${lobbyCode}`)
     .then((res) => {
-      if(res.data.data.foundTable.table.isInGame) {
-        setGameState("start game")
-        navigate(`../table/${lobbyCode}`, { replace: true })
-      }
+        if(gameState === "waiting lobby"){
+            setGameState("start game")
+            navigate(`../table/${lobbyCode}`, { replace: true })
+        } 
+        if(gameState === "decide who plays next" || gameState === "wait for card") setPlayerList(res.data.data.foundUsers)
     })
-    getAllPlayersFromLobbyId()
-  }
+}
 
   const getAllPlayersFromLobbyId = () => {
     client

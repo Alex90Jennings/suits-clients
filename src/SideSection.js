@@ -1,11 +1,9 @@
 import { globalContext } from './helper/globalContext';
 import { useContext } from "react";
 import client from './utils/client.js';
-import { useNavigate } from "react-router-dom";
 
 function SideSection () {
-    const { lobbyCode, playerList, setPlayerList, setHost, gameState, setGameState } = useContext(globalContext)
-    let navigate = useNavigate();
+    const { lobbyCode, playerList, setPlayerList, refreshTable, gameState, setGameState } = useContext(globalContext)
 
 
     const getAllPlayersFromLobbyId = () => {
@@ -14,18 +12,6 @@ function SideSection () {
         .then((res) => {
           setPlayerList(res.data.data.foundUsers)
           localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
-        })
-    }
-
-    const refreshTable = () => {
-        client
-        .get(`/table/${lobbyCode}`)
-        .then((res) => {
-            if(gameState === "waiting lobby"){
-                setGameState("start game")
-                navigate(`../table/${lobbyCode}`, { replace: true })
-            } 
-            if(gameState === "decide who plays next" || gameState === "wait for card") setPlayerList(res.data.data.foundUsers)
         })
     }
 

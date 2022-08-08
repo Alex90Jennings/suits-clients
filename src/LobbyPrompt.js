@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SignInPrompt() {
-  const { loggedInUser, setGameState, setLobbyCode, setIsHost } = useContext(globalContext)
+  const { loggedInUser, setGameState, setLobbyCode, setIsHost, setHost } = useContext(globalContext)
   let navigate = useNavigate();
   const ref = useRef(null);
 
@@ -35,6 +35,11 @@ function SignInPrompt() {
     .catch((err) => { 
       console.log(err.response)
     });
+
+        
+    client
+    .get(`/user/table/${tableId}`)
+    .then((res) => {setHost(res.data.data.foundUsers[0])})
   }
 
   const addUserToLobby = (tableId) => {

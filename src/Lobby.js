@@ -1,17 +1,12 @@
 import client from './utils/client.js';
 import { globalContext } from './helper/globalContext';
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 
 function Lobby() {
-  const { lobbyCode, playerList, setPlayerList, gameState, setGameState, loggedInUser } = useContext(globalContext)
-  const [host, setHost] = useState(null)
+  const { lobbyCode, playerList, setPlayerList, setGameState, loggedInUser, host } = useContext(globalContext)
   let navigate = useNavigate();
-
-  // function delay(ms) {
-  //   return new Promise(resolve => setTimeout(resolve, ms));
-  // }
   
   const getAllPlayersFromLobbyId = () => {
     setGameState("waiting lobby")
@@ -20,33 +15,16 @@ function Lobby() {
     .then((res) => {
       setPlayerList(res.data.data.foundUsers)
       localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
-      setHost(res.data.data.foundUsers[0])
     })
   }
 
-  // const refreshTable = () => {
-  //   client
-  //   .get(`/table/${lobbyCode}`)
-  //   .then((res) => {
-  //     if(res.data.data.foundTable.table.isInGame) {
-  //       setGameState("start game")
-  //       navigate(`../table/${lobbyCode}`, { replace: true })
-  //     }
-  //   })
-  // }
-
-  // if (gameState === "waiting lobby"){
-  //   delay(3000).then(() => {
-  //     getAllPlayersFromLobbyId()
-  //     refreshTable()
-  //     setGameState("wait for lobby refresh") 
-  //   });
-  // }
-
   const startGame = () => {
+    setGameState("start game")
+
     client
     .patch(`/table/${lobbyCode}`, {isInGame: true})
-    setGameState("start game")
+
+
     navigate(`../table/${lobbyCode}`, { replace: true });
   }
 

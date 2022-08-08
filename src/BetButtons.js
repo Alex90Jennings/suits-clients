@@ -7,8 +7,7 @@ function BetButtons() {
 
     const patchBet = (bet) => {
         const playerStateId = currentPlayerState.id
-        // if(isHost) playerStateId = currentPlayerState.playerState.id
-        // if(!isHost) playerStateId = currentPlayerState.id
+
         client
         .patch(`/user/playerState/${playerStateId}`, {bet: bet})
         .then(() => setBet(bet))
