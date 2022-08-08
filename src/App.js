@@ -33,22 +33,27 @@ function App() {
   const refreshTable = () => {
     client
     .get(`/table/${lobbyCode}`)
-    .then((res) => {
-        if(gameState === "waiting lobby"){
-            setGameState("start game")
-            navigate(`../table/${lobbyCode}`, { replace: true })
-        } 
-        if(gameState === "decide who plays next" || gameState === "wait for card") setPlayerList(res.data.data.foundUsers)
-    })
-}
+
+    if(gameState === "waiting lobby"){
+      setGameState("start game")
+      navigate(`../table/${lobbyCode}`, { replace: true })
+    } 
+  
+    if(gameState === "decide who plays next" || gameState === "wait for card" || gameState === "waiting for bets") {
+        getAllPlayersFromLobbyId()
+    }
+  }
 
   const getAllPlayersFromLobbyId = () => {
     client
     .get(`/user/table/${lobbyCode}`)
     .then((res) => {
+      console.log(res.data.data.foundUsers)
       setPlayerList(res.data.data.foundUsers)
-      localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
-      setHost(res.data.data.foundUsers[0])
+      if(host === null) {
+        localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
+        setHost(res.data.data.foundUsers[0])
+      }
     })
   }
 

@@ -11,6 +11,7 @@ function SideSection () {
         .get(`/user/table/${lobbyCode}`)
         .then((res) => {
           setPlayerList(res.data.data.foundUsers)
+          console.log(res.data.data.foundUsers)
           localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
         })
     }
@@ -33,7 +34,7 @@ function SideSection () {
             <div></div>
             <img className='palace' src='../assets/diagrams/india/palace.png' alt='palace'></img>
             <button onClick={() => {
-                getAllPlayersFromLobbyId()
+                if (gameState==="waiting lobby") getAllPlayersFromLobbyId()
                 refreshTable()
                 if (gameState==="wait for bets") checkIfEveryoneHasBet()
             }} className="button-reset">
