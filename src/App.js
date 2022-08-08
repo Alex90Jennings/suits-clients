@@ -27,6 +27,7 @@ function App() {
   const [numberOfCards, setNumberOfCards] = useState(8)
   const [bet, setBet] = useState(null)
   const [roundId, setRoundId] = useState(0)
+  const [trick, setTrick] = useState("")
 
   let navigate = useNavigate();
 
@@ -39,9 +40,7 @@ function App() {
       navigate(`../table/${lobbyCode}`, { replace: true })
     } 
   
-    if(gameState === "decide who plays next" || gameState === "wait for card" || gameState === "waiting for bets") {
-        getAllPlayersFromLobbyId()
-    }
+    if(gameState === "decide who plays next" || gameState === "wait for card" || gameState === "waiting for bets") getAllPlayersFromLobbyId()
   }
 
   const getAllPlayersFromLobbyId = () => {
@@ -55,7 +54,6 @@ function App() {
       }
     })
   }
-
 
   return(
     <>
@@ -92,7 +90,9 @@ function App() {
           bet,
           setBet,
           roundId,
-          setRoundId
+          setRoundId,
+          trick,
+          setTrick
         }}
       >
       <Header />

@@ -3,9 +3,10 @@ import { useContext } from "react";
 import client from './utils/client';
 
 function RenderCards() {
-    const { cards, setCards, currentPlayerState, setCurrentPlayerState } = useContext(globalContext)
+    const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick } = useContext(globalContext)
     
     const playACard = (cardStr) => {
+      if (!isValidCard(cardStr)) return false
       const playerStateId = currentPlayerState.id
       const newHand = cards.replace(cardStr, '')
       client
@@ -13,6 +14,25 @@ function RenderCards() {
       .then((res) => {
         setCurrentPlayerState(res.data.data.playerState)
         setCards(res.data.data.playerState.hand)
+      })
+      updateRound(cardStr)
+    }
+
+    const isValidCard = (card) => {
+      if (trick === "") return true
+      if (card[1] === trick[1]) return true
+      for (let i = 1; i < cards.length; i+=2){
+        if(cards[i] === trick[1]) return false
+      }
+    }
+
+    const updateRound = (cardPlayed) => {
+      console.log(roundId)
+      const newTrick = trick + cardPlayed
+      client
+      .patch(`/table/round/${roundId}`, { currentTrick: newTrick })
+      .then((res) => {
+        setTrick(res.data.data.round.currentTrick)
       })
     }
 
