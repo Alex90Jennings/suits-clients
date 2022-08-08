@@ -97,7 +97,7 @@ class GameLogic {
     }
 
     isValidCard(card, cards, trick) {
-        if (trick === "") return true
+        if (trick === "" || trick === null) return true
         if (card[1] === trick[1]) return true
         for (let i = 1; i < cards.length; i+=2){
           if(cards[i] === trick[1]) return false

@@ -5,15 +5,20 @@ import client from './utils/client';
 function RenderCards() {
     const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick, setGameState, gameState, playerStateIdArray } = useContext(globalContext)
 
+    console.log(trick)
 
     const playACard = (cardStr) => {
+      console.log("is a valid card: ", isValidCard(cardStr))
+      console.log("is next to play: ", isNextToPlay())
       if (isValidCard(cardStr) === false) return false
       if (isNextToPlay() === false) return false
+      console.log("playing: ", cardStr)
       const playerStateId = currentPlayerState.id
       const newHand = cards.replace(cardStr, '')
       client
       .patch(`/user/playerState/${playerStateId}`, {playedCard: cardStr, hand: newHand, playsNext: false})
       .then((res) => {
+        console.log(res.data.data.playerState)
         setCurrentPlayerState(res.data.data.playerState)
         setCards(res.data.data.playerState.hand)
       })
@@ -22,7 +27,7 @@ function RenderCards() {
     }
 
     const isValidCard = (card) => {
-      if (trick === "") return true
+      if (trick === "" || trick === null) return true
       if (card[1] === trick[1]) return true
       for (let i = 1; i < cards.length; i+=2){
         if(cards[i] === trick[1]) return false
@@ -33,12 +38,8 @@ function RenderCards() {
     const isNextToPlay = () => {
       const playerStateId = currentPlayerState.id
       client
-      .get(`/user/playerState/${playerStateId}`)
-      .then((res) => {
-        console.log(res.data.data.foundPlayerState.playerState.playsNext)
-        if (res.data.data.foundPlayerState.playerState.playsNext === true) return true
-      })
-      return false
+      .get(`/playerState/${playerStateId}`)
+      .then((res) => {return res.data.data.foundPlayerState.playerState.playsNext})
     }
 
     const updateRound = (cardPlayed) => {
@@ -57,7 +58,7 @@ function RenderCards() {
     }
 
     const decideWhoPlaysNext = () => {
-      for (let i = playerStateIdArray.length - 1; i <= 0; i--) {
+      for (let i = playerStateIdArray.length - 1; i >= 0; i--) {
         client
         .get(`/user/playerState/${playerStateIdArray[i]}`)
         .then((res) => {
