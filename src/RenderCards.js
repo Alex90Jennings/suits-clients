@@ -4,16 +4,10 @@ import client from './utils/client';
 
 function RenderCards() {
     const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick } = useContext(globalContext)
-    
-    console.log(cards)
-    console.log(trick)
+
 
     const playACard = (cardStr) => {
-      console.log(isValidCard(cardStr))
-      if (isValidCard(cardStr) === false) {
-        console.log(cardStr, "is not a valid card")
-        return false
-      }
+      if (isValidCard(cardStr) === false) return false
       const playerStateId = currentPlayerState.id
       const newHand = cards.replace(cardStr, '')
       client
