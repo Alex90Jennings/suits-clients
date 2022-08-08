@@ -6,7 +6,7 @@ import { globalContext } from './helper/globalContext';
 import client from './utils/client.js';
 
 function Table () {
-    const { playerList, gameState, setGameState, isHost, setCards, loggedInUser, setCurrentPlayerState, numberOfCards, lobbyCode, setRoundId, setIsInGame } = useContext(globalContext)
+    const { playerList, gameState, setGameState, isHost, setCards, loggedInUser, setCurrentPlayerState, numberOfCards, lobbyCode, setRoundId, setIsInGame, setPlayerStateIdArray } = useContext(globalContext)
 
     const newCardDeck = () => {
         const suits = ["C", "D", "H", "S"];
@@ -42,15 +42,18 @@ function Table () {
     }
 
     const findAllPlayersPlayerStateId = (playerList) => {
+        const playerStateIdArray = []
         for (let j = 0; j < playerList.length; j++){
             const userId = playerList[j].user.id
             client
             .get(`/user/${userId}/playerStates`)
             .then((res) => {
                 const mostRecentPlayerState = res.data.data.foundPlayerStates.pop()
+                playerStateIdArray.push(mostRecentPlayerState.playerState.id)
                 patchCardsToPlayers(mostRecentPlayerState.playerState.id)
             })
         }
+        setPlayerStateIdArray(playerStateIdArray) 
     }
 
     const patchCardsToPlayers = (playerStateId) => {
@@ -102,6 +105,12 @@ function Table () {
         })
     }
 
+    const hostPlaysFirst = () => {
+        const hostId = loggedInUser.user.id
+        client
+        .patch(`/user/playerState/${hostId}`, { playsNext: true})
+    }
+
     const dealCardsToAllPlayers = (playerList) => {
         findAllPlayersPlayerStateId(playerList)
     }
@@ -112,6 +121,7 @@ function Table () {
         fetchMostRecentPlayerStateId()
         if(isHost){
             dealCardsToAllPlayers(playerList)
+            hostPlaysFirst()
             setGameState("deal cards")
         }
         if(!isHost) {
@@ -124,9 +134,7 @@ function Table () {
         fetchCardsFromPlayerState()
     }
 
-    if (gameState ==="decide who plays next") {
-        
-    }
+    console.log("player list: ", playerList)
 
     return (
         <div className='full-height'>

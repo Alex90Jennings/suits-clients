@@ -28,6 +28,7 @@ function App() {
   const [bet, setBet] = useState(null)
   const [roundId, setRoundId] = useState(0)
   const [trick, setTrick] = useState("")
+  const [playerStateIdArray, setPlayerStateIdArray] = useState([])
 
   let navigate = useNavigate();
 
@@ -92,7 +93,9 @@ function App() {
           roundId,
           setRoundId,
           trick,
-          setTrick
+          setTrick,
+          playerStateIdArray,
+          setPlayerStateIdArray
         }}
       >
       <Header />

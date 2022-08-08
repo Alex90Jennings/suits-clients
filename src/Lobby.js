@@ -20,11 +20,8 @@ function Lobby() {
 
   const startGame = () => {
     setGameState("start game")
-
     client
     .patch(`/table/${lobbyCode}`, {isInGame: true})
-
-
     navigate(`../table/${lobbyCode}`, { replace: true });
   }
 

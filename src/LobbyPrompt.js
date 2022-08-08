@@ -11,7 +11,6 @@ function SignInPrompt() {
 
   const createNewTable = () => {
     let tableId
-
     client
     .post('/table', { users: [loggedInUser.user] })
     .then((res) => {
@@ -36,7 +35,6 @@ function SignInPrompt() {
       console.log(err.response)
     });
 
-        
     client
     .get(`/user/table/${tableId}`)
     .then((res) => {setHost(res.data.data.foundUsers[0])})
