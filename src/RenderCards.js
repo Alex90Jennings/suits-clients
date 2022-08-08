@@ -5,8 +5,15 @@ import client from './utils/client';
 function RenderCards() {
     const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick } = useContext(globalContext)
     
+    console.log(cards)
+    console.log(trick)
+
     const playACard = (cardStr) => {
-      if (!isValidCard(cardStr)) return false
+      console.log(isValidCard(cardStr))
+      if (isValidCard(cardStr) === false) {
+        console.log(cardStr, "is not a valid card")
+        return false
+      }
       const playerStateId = currentPlayerState.id
       const newHand = cards.replace(cardStr, '')
       client
@@ -24,10 +31,10 @@ function RenderCards() {
       for (let i = 1; i < cards.length; i+=2){
         if(cards[i] === trick[1]) return false
       }
+      return true
     }
 
     const updateRound = (cardPlayed) => {
-      console.log(roundId)
       const newTrick = trick + cardPlayed
       client
       .patch(`/table/round/${roundId}`, { currentTrick: newTrick })

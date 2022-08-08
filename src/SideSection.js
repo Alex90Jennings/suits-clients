@@ -3,7 +3,7 @@ import { useContext } from "react";
 import client from './utils/client.js';
 
 function SideSection () {
-    const { lobbyCode, playerList, setPlayerList, refreshTable, gameState, setGameState } = useContext(globalContext)
+    const { lobbyCode, playerList, setPlayerList, refreshTable, gameState, setGameState, roundId, setTrick } = useContext(globalContext)
 
 
     const getAllPlayersFromLobbyId = () => {
@@ -28,6 +28,12 @@ function SideSection () {
         })
     }
 
+    const refreshRound = () => {
+        client
+        .get(`/table/round/${roundId}`)
+        .then((res) => {setTrick(res.data.data.foundRound.round.currentTrick)})
+    }
+
     return (
         <section className='five-rows-expand-one-five side-section'>
             <div></div>
@@ -35,6 +41,7 @@ function SideSection () {
             <button onClick={() => {
                 if (gameState==="waiting lobby") getAllPlayersFromLobbyId()
                 refreshTable()
+                if (roundId !== 0) refreshRound()
                 if (gameState==="wait for bets") checkIfEveryoneHasBet()
             }} className="button-reset">
                 <img className='palace' src='../assets/diagrams/india/palace.png' alt='palace'></img>

@@ -39,8 +39,8 @@ function TableForMoreThanTwoPlayers() {
               </div>
               <img className="animal center" src={`../assets/diagrams/india/${shiftIndex(1)}.png`} alt="animal"></img>
               <RenderTricksWonInRound />
-              {playerList[shiftIndex(1)].user.playerStates[0].playedCard === null && <img className="playing-card center" src={`../assets/cards/red_joker.png`} alt="card"></img>}
-              {playerList[shiftIndex(1)].user.playerStates[0].playedCard !== null && <img className="playing-card center" src={`../assets/cards/${playerList[shiftIndex(1)].user.playerStates[0].playedCard[0]}${playerList[shiftIndex(1)].user.playerStates[playerStateIndex()].playedCard[1]}.png`} alt="card"></img>}
+              {playerList[shiftIndex(1)].user.playerStates[0].playedCard === null && <div className="border-playing-card playing-card center m-bottom-s"><img className="playing-card center visibility-hidden" src={`../assets/cards/red_joker.png`} alt="card"></img></div>}
+              {playerList[shiftIndex(1)].user.playerStates[0].playedCard !== null && <div className="border-playing-card playing-card center m-bottom-s"><img className="playing-card center" src={`../assets/cards/${playerList[shiftIndex(1)].user.playerStates[0].playedCard[0]}${playerList[shiftIndex(1)].user.playerStates[playerStateIndex()].playedCard[1]}.png`} alt="card"></img></div>}
             </li>
           </ul>
           <div></div>
@@ -49,8 +49,8 @@ function TableForMoreThanTwoPlayers() {
           <div></div>
           <ul className="center">
             <li id="player1" className="card">
-              {playerList[shiftIndex(0)].user.playerStates[0].playedCard === null && <img className="playing-card center" src={`../assets/cards/red_joker.png`} alt="card"></img>}
-              {playerList[shiftIndex(0)].user.playerStates[0].playedCard !== null && <img className="playing-card center" src={`../assets/cards/${playerList[shiftIndex(0)].user.playerStates[0].playedCard[0]}${playerList[shiftIndex(0)].user.playerStates[playerStateIndex()].playedCard[1]}.png`} alt="card"></img>}
+              {playerList[shiftIndex(0)].user.playerStates[0].playedCard === null && <div className="border-playing-card playing-card center"><img className="playing-card center visibility-hidden" src={`../assets/cards/red_joker.png`} alt="card"></img></div>}
+              {playerList[shiftIndex(0)].user.playerStates[0].playedCard !== null && <div className="border-playing-card playing-card center m-bottom-s"><img className="playing-card center" src={`../assets/cards/${playerList[shiftIndex(0)].user.playerStates[0].playedCard[0]}${playerList[shiftIndex(0)].user.playerStates[playerStateIndex()].playedCard[1]}.png`} alt="card"></img></div>}
               <RenderTricksWonInRound />
               <img className="animal center" src={`../assets/diagrams/india/${shiftIndex(0)}.png`} alt="tiger"></img>
               <p>{playerList[shiftIndex(0)].user.username.toUpperCase()} {playerList[shiftIndex(0)].user.playerStates[playerStateIndex()].bet !== null && ` - ${playerList[shiftIndex(0)].user.playerStates[playerStateIndex()].bet}`}</p>

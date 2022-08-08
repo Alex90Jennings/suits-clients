@@ -1,5 +1,4 @@
 const GameLogic = require('../src/gameLogic.js')
-// const playerArray = [{username: "player1", id: 1}, {username: "player2", id: 1}, {username: "player3", id: 3}, {username: "player4", id: 4}, {username: "player5", id: 5}, {username: "player6", id: 6}]
 
 describe('suits', () => {
     it('adding 2 cards to 2 players', () => {
