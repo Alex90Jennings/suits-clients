@@ -48,7 +48,6 @@ function App() {
     client
     .get(`/user/table/${lobbyCode}`)
     .then((res) => {
-      console.log(res.data.data.foundUsers)
       setPlayerList(res.data.data.foundUsers)
       if(host === null) {
         localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))

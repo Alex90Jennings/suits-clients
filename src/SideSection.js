@@ -11,7 +11,6 @@ function SideSection () {
         .get(`/user/table/${lobbyCode}`)
         .then((res) => {
           setPlayerList(res.data.data.foundUsers)
-          console.log(res.data.data.foundUsers)
           localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
         })
     }

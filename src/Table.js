@@ -128,8 +128,6 @@ function Table () {
         
     }
 
-    console.log(playerList)
-
     return (
         <div className='full-height'>
             <div className='header-height'></div>
