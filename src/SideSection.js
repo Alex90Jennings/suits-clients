@@ -3,17 +3,7 @@ import { useContext } from "react";
 import client from './utils/client.js';
 
 function SideSection () {
-    const { lobbyCode, playerList, setPlayerList, refreshTable, gameState, setGameState, roundId, setTrick } = useContext(globalContext)
-
-
-    const getAllPlayersFromLobbyId = () => {
-        client
-        .get(`/user/table/${lobbyCode}`)
-        .then((res) => {
-          setPlayerList(res.data.data.foundUsers)
-          localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
-        })
-    }
+    const { lobbyCode, playerList, refreshTable, gameState, setGameState, roundId, setTrick } = useContext(globalContext)
 
     const checkIfEveryoneHasBet = () => {
         let playersWhoHaveBet = 0
@@ -39,10 +29,10 @@ function SideSection () {
             <div></div>
             <img className='palace' src='../assets/diagrams/india/palace.png' alt='palace'></img>
             <button onClick={() => {
-                if (gameState==="waiting lobby") getAllPlayersFromLobbyId()
                 refreshTable()
                 if (roundId !== 0) refreshRound()
                 if (gameState==="wait for bets") checkIfEveryoneHasBet()
+                if (gameState==="wait for card") setGameState("decide who plays next")
             }} className="button-reset">
                 <img className='palace' src='../assets/diagrams/india/palace.png' alt='palace'></img>
             </button>

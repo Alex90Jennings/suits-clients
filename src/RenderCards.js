@@ -3,7 +3,7 @@ import { useContext } from "react";
 import client from './utils/client';
 
 function RenderCards() {
-    const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick, setGameState, gameState, playerStateIdArray } = useContext(globalContext)
+    const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick, setGameState, gameState, playerList } = useContext(globalContext)
 
     console.log("trick :", trick)
 
@@ -31,8 +31,8 @@ function RenderCards() {
       return true
     }
 
-    const isNextToPlay = () => {
-      const playerStateId = currentPlayerState.id
+    const isNextToPlay = (playerState) => {
+      const playerStateId = playerState.id
       client
       .get(`/playerState/${playerStateId}`)
       .then((res) => {return res.data.data.foundPlayerState.playerState.playsNext})
@@ -56,14 +56,19 @@ function RenderCards() {
     }
 
     const decideWhoPlaysNext = () => {
-      for (let i = playerStateIdArray.length - 1; i >= 0; i--) {
+      console.log("in function decide who plays next")
+
+      for (let i = playerList.length - 1; i >= 0; i--) {
+        const mostRecentPlayerState = playerList[i].user.playerStates.pop()
+        const playerStateId = mostRecentPlayerState.id
+        console.log("inside for loop")
         client
-        .get(`/playerState/${playerStateIdArray[i]}`)
+        .get(`/playerState/${playerStateId}`)
         .then((res) => {
           console.log("checking p", i, " if they have played a card")
           if (res.data.data.foundPlayerState.playerState.playedCard !== null){
-            if (i === playerStateIdArray.length - 1) patchPlaysNext(playerStateIdArray[0])
-            else patchPlaysNext(playerStateIdArray[i+1])
+            if (i === playerList.length - 1) patchPlaysNext(playerList[i].user.playerStates.pop())
+            else patchPlaysNext(playerList[i+1].user.playerStates.pop())
           }
         })
       }
@@ -71,8 +76,12 @@ function RenderCards() {
     }
 
     if (gameState ==="decide who plays next") {
+      console.log("deciding who plays next")
       decideWhoPlaysNext()
     }
+    
+    console.log(gameState)
+    console.log("cards: ", cards)
 
     return (
         <ul className="list-reset display-inline">

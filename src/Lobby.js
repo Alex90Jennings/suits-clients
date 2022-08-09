@@ -5,23 +5,17 @@ import { useNavigate } from "react-router-dom";
 
 
 function Lobby() {
-  const { lobbyCode, playerList, setPlayerList, setGameState, loggedInUser, host } = useContext(globalContext)
+  const { lobbyCode, playerList, setGameState, loggedInUser, isHost, refreshPlayerList } = useContext(globalContext)
   let navigate = useNavigate();
-  
-  const getAllPlayersFromLobbyId = () => {
-    setGameState("waiting lobby")
-    client
-    .get(`/user/table/${lobbyCode}`)
-    .then((res) => {
-      setPlayerList(res.data.data.foundUsers)
-      localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
-    })
-  }
+
+  console.log(playerList)
+  console.log(isHost)
 
   const startGame = () => {
     setGameState("start game")
     client
     .patch(`/table/${lobbyCode}`, {isInGame: true})
+    .then((res) => console.log(res.data.data))
     navigate(`../table/${lobbyCode}`, { replace: true });
   }
 
@@ -55,12 +49,12 @@ function Lobby() {
                 <p>Click the Gate of India to refresh see if others have joined:</p>
                 <div></div>
               </div>
-              <button onClick={() => {getAllPlayersFromLobbyId()}} className="button-reset display-inline m-left-m m-top-l">
-                <img src='../assets/diagrams/india/gate.png' alt="rupee" className='button-image'></img>
+              <button onClick={() => {refreshPlayerList()}} className="button-reset display-inline m-left-m m-top-l">
+                <img src='../assets/diagrams/india/gate.png' alt="gate" className='button-image'></img>
               </button>
               <div></div>
             </div>
-            {host !== null && host.user.id === loggedInUser.user.id && (
+            {isHost && (
               <div className='four-columns-expand-one-four m-top-l'>
                 <div></div>
                 <div className='display-inline three-rows-expand-one-three'>

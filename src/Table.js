@@ -6,7 +6,7 @@ import { globalContext } from './helper/globalContext';
 import client from './utils/client.js';
 
 function Table () {
-    const { playerList, gameState, setGameState, isHost, setCards, loggedInUser, setCurrentPlayerState, numberOfCards, lobbyCode, setRoundId, setIsInGame, setPlayerStateIdArray } = useContext(globalContext)
+    const { playerList, gameState, setGameState, isHost, setCards, loggedInUser, setCurrentPlayerState, numberOfCards, lobbyCode, setRoundId, setIsInGame, refreshPlayerList } = useContext(globalContext)
 
     const newCardDeck = () => {
         const suits = ["C", "D", "H", "S"];
@@ -40,32 +40,23 @@ function Table () {
 
         return cardsToDeal
     }
-
-    const findAllPlayersPlayerStateId = (playerList) => {
-        const playerStateIdArray = []
-        for (let j = 0; j < playerList.length; j++){
-            const userId = playerList[j].user.id
-            client
-            .get(`/user/${userId}/playerStates`)
-            .then((res) => {
-                const mostRecentPlayerState = res.data.data.foundPlayerStates.pop()
-                playerStateIdArray.push(mostRecentPlayerState.playerState.id)
-                patchCardsToPlayers(mostRecentPlayerState.playerState.id)
-            })
-        }
-        setPlayerStateIdArray(playerStateIdArray) 
-    }
-
-    const patchCardsToPlayers = (playerStateId) => {
+    
+    const patchCardsToPlayers = () => {
         const cardsToDeal = retrieveCardsToDeal()
 
         const numberOfCardsEach = numberOfCards
         const cardsToPatchPlayer = cardsToDeal.splice(0, numberOfCardsEach)
         const cardsToPatchPlayerString = cardsToPatchPlayer.join("").toString()
         
-        client
-        .patch(`/user/playerState/${playerStateId}`, {hand: cardsToPatchPlayerString})
-        .then(() => {setGameState("retrieve cards")})
+        for (let i = 0; i < playerList.length; i++){
+            const mostRecentPlayerState = playerList[i].user.playerStates.pop()
+            const playerStateId = mostRecentPlayerState.id
+
+            client
+            .patch(`/user/playerState/${playerStateId}`, {hand: cardsToPatchPlayerString})
+            .then(console.log("patching cards ", cardsToPatchPlayerString, " to player stateId", playerStateId))
+        }
+        setGameState("retrieve cards")
     };
 
     const fetchCardsFromPlayerState = () => {
@@ -109,10 +100,8 @@ function Table () {
         const hostId = loggedInUser.user.id
         client
         .patch(`/user/playerState/${hostId}`, { playsNext: true})
-    }
 
-    const dealCardsToAllPlayers = (playerList) => {
-        findAllPlayersPlayerStateId(playerList)
+        refreshPlayerList()
     }
 
     if (gameState === "start game") {
@@ -120,7 +109,7 @@ function Table () {
         fetchMostRecentRoundId()
         fetchMostRecentPlayerStateId()
         if(isHost){
-            dealCardsToAllPlayers(playerList)
+            patchCardsToPlayers()
             hostPlaysFirst()
             setGameState("deal cards")
         }
@@ -133,8 +122,6 @@ function Table () {
     if (gameState==="retrieve cards"){
         fetchCardsFromPlayerState()
     }
-
-    console.log("player list: ", playerList)
 
     return (
         <div className='full-height'>

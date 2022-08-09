@@ -34,10 +34,6 @@ function SignInPrompt() {
     .catch((err) => { 
       console.log(err.response)
     });
-
-    client
-    .get(`/user/table/${tableId}`)
-    .then((res) => {setHost(res.data.data.foundUsers[0])})
   }
 
   const addUserToLobby = (tableId) => {

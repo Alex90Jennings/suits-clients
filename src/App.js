@@ -22,38 +22,33 @@ function App() {
   const [cards, setCards] = useState("")
   const [cardPlayedThisRound, setCardPlayedThisRound] = useState("")
   const [isHost, setIsHost] = useState(false)
-  const [host, setHost] = useState(null)
   const [currentPlayerState, setCurrentPlayerState] = useState({})
   const [numberOfCards, setNumberOfCards] = useState(8)
   const [bet, setBet] = useState(null)
   const [roundId, setRoundId] = useState(0)
   const [trick, setTrick] = useState("")
-  const [playerStateIdArray, setPlayerStateIdArray] = useState([])
 
   let navigate = useNavigate();
 
-  const refreshTable = () => {
+  const refreshPlayerList = () => {
     client
-    .get(`/table/${lobbyCode}`)
+    .get(`/user/table/${lobbyCode}`)
+    .then((res) => {
+      console.log(res.data.data.foundUsers)
+      setPlayerList(res.data.data.foundUsers)
+      localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
+    })
+  }
 
+
+  const refreshTable = () => {
     if(gameState === "waiting lobby"){
       setGameState("start game")
       navigate(`../table/${lobbyCode}`, { replace: true })
     } 
   
-    if(gameState === "decide who plays next" || gameState === "wait for card" || gameState === "waiting for bets") getAllPlayersFromLobbyId()
-  }
-
-  const getAllPlayersFromLobbyId = () => {
-    client
-    .get(`/user/table/${lobbyCode}`)
-    .then((res) => {
-      setPlayerList(res.data.data.foundUsers)
-      if(host === null) {
-        localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
-        setHost(res.data.data.foundUsers[0])
-      }
-    })
+    // if(gameState === "decide who plays next" || gameState === "wait for card" || gameState === "waiting for bets") 
+    refreshPlayerList()
   }
 
   return(
@@ -81,9 +76,6 @@ function App() {
           isHost,
           setIsHost,
           refreshTable,
-          getAllPlayersFromLobbyId,
-          host,
-          setHost,
           currentPlayerState,
           setCurrentPlayerState,
           numberOfCards,
@@ -94,8 +86,7 @@ function App() {
           setRoundId,
           trick,
           setTrick,
-          playerStateIdArray,
-          setPlayerStateIdArray
+          refreshPlayerList
         }}
       >
       <Header />
