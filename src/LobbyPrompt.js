@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SignInPrompt() {
-  const { loggedInUser, setGameState, setLobbyCode, setIsHost, setHost } = useContext(globalContext)
+  const { loggedInUser, setGameState, setLobbyCode, setIsHost } = useContext(globalContext)
   let navigate = useNavigate();
   const ref = useRef(null);
 

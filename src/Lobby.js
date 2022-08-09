@@ -5,11 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 
 function Lobby() {
-  const { lobbyCode, playerList, setGameState, loggedInUser, isHost, refreshPlayerList } = useContext(globalContext)
+  const { lobbyCode, playerList, setGameState, isHost, refreshPlayerList } = useContext(globalContext)
   let navigate = useNavigate();
 
   console.log(playerList)
-  console.log(isHost)
 
   const startGame = () => {
     setGameState("start game")
