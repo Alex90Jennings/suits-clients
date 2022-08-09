@@ -5,20 +5,16 @@ import client from './utils/client';
 function RenderCards() {
     const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick, setGameState, gameState, playerStateIdArray } = useContext(globalContext)
 
-    console.log(trick)
+    console.log("trick :", trick)
 
     const playACard = (cardStr) => {
-      console.log("is a valid card: ", isValidCard(cardStr))
-      console.log("is next to play: ", isNextToPlay())
       if (isValidCard(cardStr) === false) return false
       if (isNextToPlay() === false) return false
-      console.log("playing: ", cardStr)
       const playerStateId = currentPlayerState.id
       const newHand = cards.replace(cardStr, '')
       client
       .patch(`/user/playerState/${playerStateId}`, {playedCard: cardStr, hand: newHand, playsNext: false})
       .then((res) => {
-        console.log(res.data.data.playerState)
         setCurrentPlayerState(res.data.data.playerState)
         setCards(res.data.data.playerState.hand)
       })
@@ -43,7 +39,9 @@ function RenderCards() {
     }
 
     const updateRound = (cardPlayed) => {
-      const newTrick = trick + cardPlayed
+      let newTrick
+      if (trick === null) newTrick = cardPlayed
+      if (trick !== null) newTrick = trick + cardPlayed
       client
       .patch(`/table/round/${roundId}`, { currentTrick: newTrick })
       .then((res) => {
@@ -52,7 +50,7 @@ function RenderCards() {
     }
 
     const patchPlaysNext = (playerStateId) => {
-      console.log(playerStateId)
+      console.log("changing who plays next")
       client
       .patch(`/user/playerState/${playerStateId}`, {playsNext: true})
     }
@@ -60,10 +58,12 @@ function RenderCards() {
     const decideWhoPlaysNext = () => {
       for (let i = playerStateIdArray.length - 1; i >= 0; i--) {
         client
-        .get(`/user/playerState/${playerStateIdArray[i]}`)
+        .get(`/playerState/${playerStateIdArray[i]}`)
         .then((res) => {
+          console.log("checking p", i, " if they have played a card")
           if (res.data.data.foundPlayerState.playerState.playedCard !== null){
-            patchPlaysNext(playerStateIdArray[i+1])
+            if (i === playerStateIdArray.length - 1) patchPlaysNext(playerStateIdArray[0])
+            else patchPlaysNext(playerStateIdArray[i+1])
           }
         })
       }
@@ -73,8 +73,6 @@ function RenderCards() {
     if (gameState ==="decide who plays next") {
       decideWhoPlaysNext()
     }
-
-    console.log("cards: ", cards)
 
     return (
         <ul className="list-reset display-inline">
