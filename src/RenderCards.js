@@ -47,28 +47,49 @@ function RenderCards() {
       })
     }
 
-    const patchPlaysNext = (playerStateId) => {
-      client
-      .patch(`/user/playerState/${playerStateId}`, {playsNext: true})
+    const decideWhoPlaysNext = () => {
+      console.log("deciding who plays next")
+      if(hasFirstPlayerPlayed()){
+        for (let i = 0; i < playerStates.length; i++) {
+          console.log("1st player has played")
+          const playerStateId = playerStates[i].id
+          console.log("player state id to patch: ", playerStateId)
+          if(playerStates[i].playedCard === "") patchWhoPlaysNext(playerStateId)
+        }
+      }
+      if(!hasFirstPlayerPlayed()&& !hasLastPlayerPlayed()) {
+        for (let i = playerStates.length - 2; i >= 0; i--) {
+          const playerStateId = playerStates[i+1].id
+          if(playerStates[i].playerCard !== "") patchWhoPlaysNext(playerStateId)
+        }
+      }
+      if(!hasFirstPlayerPlayed() && hasLastPlayerPlayed()) patchWhoPlaysNext(playerStates[0].id)
     }
 
-    const decideWhoPlaysNext = () => {
-      for (let i = playerList.length - 1; i >= 0; i--) {
-        const mostRecentPlayerState = playerStates[i]
-        const playerStateId = mostRecentPlayerState.id
-        client
-        .get(`/playerState/${playerStateId}`)
-        .then((res) => {
-          if (res.data.data.foundPlayerState.playerState.playedCard !== null){
-            if (i === playerList.length - 1) patchPlaysNext(playerStates[i].id)
-            else patchPlaysNext(playerStates[i+1].id)
-          }
-        })
-      }
+    // const hasEveryOnePlayed = () => {
+    //     for(let i = 0; i < playerStates.length; i++) {
+    //       if(playerStates[i].playedCard === "") return false
+    //     }
+    //     return true
+    // }
+
+    const hasFirstPlayerPlayed = () => {
+        if(playerStates[0].playedCard !== '') return true
+        return false
+    }
+
+    const hasLastPlayerPlayed = () => {
+        if(playerStates[(playerStates.length - 1)].playedCard !== '') return true
+        return false
+    }
+
+    const patchWhoPlaysNext = (playerStateId) => {
+      console.log("player to play next: ", playerStateId)
+      client
+      .patch(`/user/playerState/${playerStateId}`, { playsNext: true })
       setGameState("wait for card")
     }
 
-    
     const retrieveCards = () => {
       const userId = loggedInUser.user.id
       client

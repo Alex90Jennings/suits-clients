@@ -139,5 +139,37 @@ describe('suits', () => {
 
         expect(result).toEqual(true)
     })
+
+    it('find the next player to play', () => {
+        const Suits = new GameLogic()
+        const playerStates = [{id: 1, playedCard: "4C"}, {id: 2, playedCard: ""}, {id: 3, playedCard: ""}, {id: 4, playedCard: ""}]
+        const result = Suits.findNextPlayer(playerStates)
+
+        expect(result).toEqual(2)
+    })
+
+    it('find the next player to play', () => {
+        const Suits = new GameLogic()
+        const playerStates = [{id: 1, playedCard: ""}, {id: 2, playedCard: "4C"}, {id: 3, playedCard: "8C"}, {id: 4, playedCard: ""}]
+        const result = Suits.findNextPlayer(playerStates)
+
+        expect(result).toEqual(4)
+    })
+
+    it('find the next player to play', () => {
+        const Suits = new GameLogic()
+        const playerStates = [{id: 1, playedCard: ""}, {id: 2, playedCard: ""}, {id: 3, playedCard: "8C"}, {id: 4, playedCard: "4C"}]
+        const result = Suits.findNextPlayer(playerStates)
+
+        expect(result).toEqual(1)
+    })
+
+    it('find the next player to play', () => {
+        const Suits = new GameLogic()
+        const playerStates = [{id: 1, playedCard: "8C"}, {id: 2, playedCard: ""}, {id: 3, playedCard: ""}, {id: 4, playedCard: "4C"}]
+        const result = Suits.findNextPlayer(playerStates)
+
+        expect(result).toEqual(2)
+    })
 })
 

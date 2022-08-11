@@ -104,6 +104,34 @@ class GameLogic {
         }
         return true
     }
+
+    findNextPlayer(playerStates){
+        const hasFirstPlayerPlayed = this.hasPlayerOnePlayed(playerStates)
+        const hasLastPlayerPlayed = this.hasLastPlayerPlayed(playerStates)
+        if(hasFirstPlayerPlayed){
+            for (let i = 0; i < playerStates.length; i++) {
+                const playerStateId = playerStates[i].id
+                if(playerStates[i].playedCard === "") return playerStateId
+            }
+        }
+        if(!hasFirstPlayerPlayed && hasLastPlayerPlayed) return playerStates[0].id
+        if(!hasFirstPlayerPlayed && !hasLastPlayerPlayed){
+            for (let i = playerStates.length - 2; i >= 0; i--) {
+                const playerStateId = playerStates[i+1].id
+                if(playerStates[i].playerCard !== "") return playerStateId
+            }
+        }
+    }
+ 
+    hasPlayerOnePlayed(playerStates){
+        if(playerStates[0].playedCard !== '') return true
+        return false
+    }
+
+    hasLastPlayerPlayed(playerStates){
+        if(playerStates[(playerStates.length - 1)].playedCard !== '') return true
+        return false
+    }
 }
 
 module.exports = GameLogic

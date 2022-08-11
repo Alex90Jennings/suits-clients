@@ -5,7 +5,7 @@ import { globalContext } from './helper/globalContext';
 
 
 function TableForMoreThanTwoPlayers() {
-  const { playerList, loggedInUser, numberOfCards, playerStates } = useContext(globalContext)
+  const { playerList, loggedInUser, playerStates } = useContext(globalContext)
 
   const findIndexOfLoggedInUser = () => {
     for (let i = 0; i < playerList.length; i++){
@@ -21,10 +21,6 @@ function TableForMoreThanTwoPlayers() {
       newIndex = newIndex-playerList.length
     }
     return newIndex
-  }
-  
-  const playerStateIndex = () => {
-    return 8 - numberOfCards
   }
 
   return (
