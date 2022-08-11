@@ -3,11 +3,10 @@ import { useContext } from "react";
 import client from './utils/client';
 
 function RenderCards() {
-    const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick, setGameState, isHost, loggedInUser } = useContext(globalContext)
+    const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick, setGameState, isHost, loggedInUser, playerList, gameState, playerStates } = useContext(globalContext)
 
     const playACard = (cardStr) => {
       const playerStateId = currentPlayerState.id
-      console.log(playerStateId)
       if (isValidCard(cardStr) === false) return false
       if (isNextToPlay(playerStateId) === false) return false
       const newHand = cards.replace(cardStr, '')
@@ -19,6 +18,7 @@ function RenderCards() {
       })
       setGameState("decide who plays next")
       updateRound(cardStr)
+      decideWhoPlaysNext()
     }
 
     const isValidCard = (card) => {
@@ -47,26 +47,26 @@ function RenderCards() {
       })
     }
 
-    // const patchPlaysNext = (playerStateId) => {
-    //   client
-    //   .patch(`/user/playerState/${playerStateId}`, {playsNext: true})
-    // }
+    const patchPlaysNext = (playerStateId) => {
+      client
+      .patch(`/user/playerState/${playerStateId}`, {playsNext: true})
+    }
 
-    // const decideWhoPlaysNext = () => {
-    //   for (let i = playerList.length - 1; i >= 0; i--) {
-    //     const mostRecentPlayerState = playerList[i].user.playerStates.pop()
-    //     const playerStateId = mostRecentPlayerState.id
-    //     client
-    //     .get(`/playerState/${playerStateId}`)
-    //     .then((res) => {
-    //       if (res.data.data.foundPlayerState.playerState.playedCard !== null){
-    //         if (i === playerList.length - 1) patchPlaysNext(playerList[i].user.playerStates.pop())
-    //         else patchPlaysNext(playerList[i+1].user.playerStates.pop())
-    //       }
-    //     })
-    //   }
-    //   setGameState("wait for card")
-    // }
+    const decideWhoPlaysNext = () => {
+      for (let i = playerList.length - 1; i >= 0; i--) {
+        const mostRecentPlayerState = playerStates[i]
+        const playerStateId = mostRecentPlayerState.id
+        client
+        .get(`/playerState/${playerStateId}`)
+        .then((res) => {
+          if (res.data.data.foundPlayerState.playerState.playedCard !== null){
+            if (i === playerList.length - 1) patchPlaysNext(playerStates[i].id)
+            else patchPlaysNext(playerStates[i+1].id)
+          }
+        })
+      }
+      setGameState("wait for card")
+    }
 
     
     const retrieveCards = () => {
@@ -85,15 +85,15 @@ function RenderCards() {
     }
     
 
-    // if (gameState ==="decide who plays next") {
-    //   decideWhoPlaysNext()
-    // }
+    if (gameState ==="decide who plays next") {
+      decideWhoPlaysNext()
+    }
 
     return (
         <ul className="list-reset display-inline">
             {isHost && !cards && (
               <li className="display-inline" key={`${cards[0]}${cards[1]}`}>
-                <button className="button-reset" onClick={() => {retrieveCards()}}>Click to retrieve cards</button>
+                <button className="button-reset" onClick={() => {retrieveCards()}}><h2>CLICK TO SEE CARDS</h2></button>
               </li>
             )}
             {cards && cards.length > 1 && (

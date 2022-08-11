@@ -16,6 +16,7 @@ function App() {
   const [gameState, setGameState] = useState("sign in")
   const [lobbyCode, setLobbyCode]= useState(JSON.parse(localStorage.getItem('lobby code')))
   const [playerList, setPlayerList] = useState([])
+  const [playerStates, setPlayerStates] = useState([])
   const [isInGame, setIsInGame] = useState(false)
   const [trumps, setTrumps] = useState("S")
   const [tricksWonInRound, setTricksWonInRound] = useState(0)
@@ -31,11 +32,16 @@ function App() {
   let navigate = useNavigate();
 
   const refreshPlayerList = () => {
-    console.log("refreshing player list")
+    const playerStates = []
     client
     .get(`/user/table/${lobbyCode}`)
     .then((res) => {
       setPlayerList(res.data.data.foundUsers)
+      for (let i = 0; i < res.data.data.foundUsers.length; i++){
+        const mostRecentPlayerState = res.data.data.foundUsers[i].user.playerStates.pop()
+        playerStates.push(mostRecentPlayerState)
+      }
+      setPlayerStates(playerStates)
       localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
     })
   }
@@ -45,7 +51,8 @@ function App() {
     if(gameState === "waiting lobby"){
       setGameState("start game")
       navigate(`../table/${lobbyCode}`, { replace: true })
-    }   
+    }
+    refreshPlayerList()
   }
 
   return(
@@ -83,7 +90,8 @@ function App() {
           setRoundId,
           trick,
           setTrick,
-          refreshPlayerList
+          refreshPlayerList,
+          playerStates
         }}
       >
       <Header />

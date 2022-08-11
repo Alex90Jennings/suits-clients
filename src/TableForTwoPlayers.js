@@ -5,9 +5,7 @@ import { globalContext } from './helper/globalContext';
 
 
 function TableForMoreThanTwoPlayers() {
-  const { gameState, playerList, loggedInUser, numberOfCards } = useContext(globalContext)
-
-  console.log("player list ", playerList, "at game state: ", gameState)
+  const { playerList, loggedInUser, numberOfCards, playerStates } = useContext(globalContext)
 
   const findIndexOfLoggedInUser = () => {
     for (let i = 0; i < playerList.length; i++){
@@ -37,14 +35,14 @@ function TableForMoreThanTwoPlayers() {
           <ul className="center">
             <li id="player2" className="card">
               <div>
-                <p>{playerList[shiftIndex(1)].user.username.toUpperCase()} {playerList[shiftIndex(1)].user.playerStates[playerStateIndex()]?.bet !== null && ` - ${playerList[shiftIndex(1)].user.playerStates[playerStateIndex()]?.bet}`}</p>
+                <p>{playerList[shiftIndex(1)].user.username.toUpperCase()} {playerStates[shiftIndex(1)].bet !== null && ` - ${playerStates[shiftIndex(1)].bet}`}</p>
               </div>
               <div className={`${playerList[shiftIndex(1)].user.playerStates[playerStateIndex()]?.playsNext ? "up-next" : ""} animal center`}>
                 <img className="animal center" src={`../assets/diagrams/india/${shiftIndex(1)}.png`} alt="animal"></img>
               </div>
               <RenderTricksWonInRound />
-              {playerList[shiftIndex(1)].user.playerStates[playerStateIndex()]?.playedCard === null && <div className="border-playing-card playing-card center m-bottom-s"><img className="playing-card center visibility-hidden" src={`../assets/cards/red_joker.png`} alt="card"></img></div>}
-              {playerList[shiftIndex(1)].user.playerStates[playerStateIndex()]?.playedCard !== null && <div className="border-playing-card playing-card center m-bottom-s"><img className="playing-card center" src={`../assets/cards/${playerList[shiftIndex(1)].user.playerStates[playerStateIndex()]?.playedCard[0]}${playerList[shiftIndex(1)].user.playerStates[playerStateIndex()]?.playedCard[1]}.png`} alt="card"></img></div>}
+              {playerStates[shiftIndex(1)].playedCard === null && <div className="border-playing-card playing-card center m-bottom-s"><img className="playing-card center visibility-hidden" src={`../assets/cards/red_joker.png`} alt="card"></img></div>}
+              {playerStates[shiftIndex(1)].playedCard !== null && <div className="border-playing-card playing-card center m-bottom-s"><img className="playing-card center" src={`../assets/cards/${playerStates[shiftIndex(1)].playedCard[0]}${playerStates[shiftIndex(1)].playedCard[1]}.png`} alt="card"></img></div>}
             </li>
           </ul>
           <div></div>
@@ -53,13 +51,13 @@ function TableForMoreThanTwoPlayers() {
           <div></div>
           <ul className="center">
             <li id="player1" className="card">
-              {playerList[shiftIndex(0)].user.playerStates[playerStateIndex()]?.playedCard === null && <div className="border-playing-card playing-card center"><img className="playing-card center visibility-hidden" src={`../assets/cards/red_joker.png`} alt="card"></img></div>}
-              {playerList[shiftIndex(0)].user.playerStates[playerStateIndex()]?.playedCard !== null && <div className="border-playing-card playing-card center m-bottom-s"><img className="playing-card center" src={`../assets/cards/${playerList[shiftIndex(0)].user.playerStates[playerStateIndex()]?.playedCard[0]}${playerList[shiftIndex(0)].user.playerStates[playerStateIndex()]?.playedCard[1]}.png`} alt="card"></img></div>}
+              {playerStates[shiftIndex(0)].playedCard === null && <div className="border-playing-card playing-card center"><img className="playing-card center visibility-hidden" src={`../assets/cards/red_joker.png`} alt="card"></img></div>}
+              {playerStates[shiftIndex(0)].playedCard !== null && <div className="border-playing-card playing-card center m-bottom-s"><img className="playing-card center" src={`../assets/cards/${playerStates[shiftIndex(0)].playedCard[0]}${playerStates[shiftIndex(0)].playedCard[1]}.png`} alt="card"></img></div>}
               <RenderTricksWonInRound />
               <div className={`${playerList[shiftIndex(0)].user.playerStates[playerStateIndex()]?.playsNext ? "up-next" : ""} animal center`}>
                 <img className="animal center" src={`../assets/diagrams/india/${shiftIndex(0)}.png`} alt="tiger"></img>
               </div>
-              <p>{playerList[shiftIndex(0)].user.username.toUpperCase()} {playerList[shiftIndex(0)].user.playerStates[playerStateIndex()]?.bet !== null && ` - ${playerList[shiftIndex(0)].user.playerStates[playerStateIndex()]?.bet}`}</p>
+              <p>{playerList[shiftIndex(0)].user.username.toUpperCase()} {playerStates[shiftIndex(0)].bet !== null && ` - ${playerStates[shiftIndex(0)].bet}`}</p>
             </li>
           </ul>          
           <div></div>

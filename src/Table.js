@@ -6,7 +6,7 @@ import { globalContext } from './helper/globalContext';
 import client from './utils/client.js';
 
 function Table () {
-    const { playerList, gameState, setGameState, isHost, setCards, loggedInUser, setCurrentPlayerState, numberOfCards, lobbyCode, setRoundId, setIsInGame, refreshPlayerList } = useContext(globalContext)
+    const { playerList, gameState, setGameState, isHost, setCards, loggedInUser, setCurrentPlayerState, numberOfCards, lobbyCode, setRoundId, setIsInGame, refreshPlayerList, playerStates } = useContext(globalContext)
 
     const newCardDeck = () => {
         const suits = ["C", "D", "H", "S"];
@@ -49,8 +49,7 @@ function Table () {
             const cardsToPatchPlayer = cardsToDeal.splice(0, numberOfCardsEach)
             const cardsToPatchPlayerString = cardsToPatchPlayer.join("").toString()
         
-            const mostRecentPlayerState = playerList[i].user.playerStates.pop()
-            const playerStateId = mostRecentPlayerState.id
+            const playerStateId = playerStates[i].id
 
             patchCardsToPlayerStateId(playerStateId, cardsToPatchPlayerString)
         }
