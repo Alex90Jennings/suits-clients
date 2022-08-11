@@ -41,23 +41,25 @@ function Table () {
         return cardsToDeal
     }
     
-    const patchCardsToPlayers = () => {
+    const prepareCardsToPatch = () => {
         const cardsToDeal = retrieveCardsToDeal()
 
-        const numberOfCardsEach = numberOfCards
-        const cardsToPatchPlayer = cardsToDeal.splice(0, numberOfCardsEach)
-        const cardsToPatchPlayerString = cardsToPatchPlayer.join("").toString()
-        
         for (let i = 0; i < playerList.length; i++){
+            const numberOfCardsEach = numberOfCards
+            const cardsToPatchPlayer = cardsToDeal.splice(0, numberOfCardsEach)
+            const cardsToPatchPlayerString = cardsToPatchPlayer.join("").toString()
+        
             const mostRecentPlayerState = playerList[i].user.playerStates.pop()
             const playerStateId = mostRecentPlayerState.id
 
-            client
-            .patch(`/user/playerState/${playerStateId}`, {hand: cardsToPatchPlayerString})
-            .then(console.log("patching cards ", cardsToPatchPlayerString, " to player stateId", playerStateId))
+            patchCardsToPlayerStateId(playerStateId, cardsToPatchPlayerString)
         }
-        setGameState("retrieve cards")
     };
+
+    const patchCardsToPlayerStateId = (playerStateId, cards) => {
+        client
+        .patch(`/user/playerState/${playerStateId}`, {hand: cards})
+    }
 
     const fetchCardsFromPlayerState = () => {
         const userId = loggedInUser.user.id
@@ -65,9 +67,12 @@ function Table () {
         .get(`/user/${userId}/playerStates`)
         .then((res) => {
             const mostRecentPlayerState = res.data.data.foundPlayerStates.pop()
+            const hand = mostRecentPlayerState.playerState.hand
             setCurrentPlayerState(mostRecentPlayerState.playerState)
-            setCards(mostRecentPlayerState.playerState.hand)
-            setGameState("wait for bets")
+            if(hand) {
+                setCards(hand)
+                setGameState("wait for bets")
+            }
         })
     }
 
@@ -80,47 +85,23 @@ function Table () {
         })
     }
 
-    const findIndexOfPlayerInPlayerList = () => {
-        for (let i = 0; i < playerList.length; i++){
-            if(playerList[i].user.id === loggedInUser.user.id) return i
-        }
-    }
-
-    const fetchMostRecentPlayerStateId = () => {
-        const userIndex = findIndexOfPlayerInPlayerList()
-        client
-        .get(`/table/${lobbyCode}`)
-        .then((res) => {
-            const mostRecentPlayerState = res.data.data.foundTable.table.users[userIndex].playerStates.pop()
-            setCurrentPlayerState(mostRecentPlayerState)
-        })
-    }
-
     const hostPlaysFirst = () => {
         const hostId = loggedInUser.user.id
         client
         .patch(`/user/playerState/${hostId}`, { playsNext: true})
-
         refreshPlayerList()
     }
 
     if (gameState === "start game") {
         setIsInGame(true)
         fetchMostRecentRoundId()
-        fetchMostRecentPlayerStateId()
         if(isHost){
-            patchCardsToPlayers()
-            hostPlaysFirst()
             setGameState("deal cards")
+            prepareCardsToPatch()
+            hostPlaysFirst()
+            setGameState("retrieve cards")
         }
-        if(!isHost) {
-            fetchCardsFromPlayerState()
-            setGameState("wait for bets")
-        }
-    }
-
-    if (gameState==="retrieve cards"){
-        fetchCardsFromPlayerState()
+        if(!isHost) fetchCardsFromPlayerState()
     }
 
     return (

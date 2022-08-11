@@ -8,13 +8,10 @@ function Lobby() {
   const { lobbyCode, playerList, setGameState, isHost, refreshPlayerList } = useContext(globalContext)
   let navigate = useNavigate();
 
-  console.log(playerList)
-
   const startGame = () => {
     setGameState("start game")
     client
     .patch(`/table/${lobbyCode}`, {isInGame: true})
-    .then((res) => console.log(res.data.data))
     navigate(`../table/${lobbyCode}`, { replace: true });
   }
 

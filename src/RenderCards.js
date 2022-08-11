@@ -3,14 +3,13 @@ import { useContext } from "react";
 import client from './utils/client';
 
 function RenderCards() {
-    const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick, setGameState, gameState, playerList } = useContext(globalContext)
-
-    console.log("trick :", trick)
+    const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick, setGameState, isHost, loggedInUser } = useContext(globalContext)
 
     const playACard = (cardStr) => {
-      if (isValidCard(cardStr) === false) return false
-      if (isNextToPlay() === false) return false
       const playerStateId = currentPlayerState.id
+      console.log(playerStateId)
+      if (isValidCard(cardStr) === false) return false
+      if (isNextToPlay(playerStateId) === false) return false
       const newHand = cards.replace(cardStr, '')
       client
       .patch(`/user/playerState/${playerStateId}`, {playedCard: cardStr, hand: newHand, playsNext: false})
@@ -31,8 +30,7 @@ function RenderCards() {
       return true
     }
 
-    const isNextToPlay = (playerState) => {
-      const playerStateId = playerState.id
+    const isNextToPlay = (playerStateId) => {
       client
       .get(`/playerState/${playerStateId}`)
       .then((res) => {return res.data.data.foundPlayerState.playerState.playsNext})
@@ -49,42 +47,55 @@ function RenderCards() {
       })
     }
 
-    const patchPlaysNext = (playerStateId) => {
-      console.log("changing who plays next")
+    // const patchPlaysNext = (playerStateId) => {
+    //   client
+    //   .patch(`/user/playerState/${playerStateId}`, {playsNext: true})
+    // }
+
+    // const decideWhoPlaysNext = () => {
+    //   for (let i = playerList.length - 1; i >= 0; i--) {
+    //     const mostRecentPlayerState = playerList[i].user.playerStates.pop()
+    //     const playerStateId = mostRecentPlayerState.id
+    //     client
+    //     .get(`/playerState/${playerStateId}`)
+    //     .then((res) => {
+    //       if (res.data.data.foundPlayerState.playerState.playedCard !== null){
+    //         if (i === playerList.length - 1) patchPlaysNext(playerList[i].user.playerStates.pop())
+    //         else patchPlaysNext(playerList[i+1].user.playerStates.pop())
+    //       }
+    //     })
+    //   }
+    //   setGameState("wait for card")
+    // }
+
+    
+    const retrieveCards = () => {
+      const userId = loggedInUser.user.id
       client
-      .patch(`/user/playerState/${playerStateId}`, {playsNext: true})
-    }
-
-    const decideWhoPlaysNext = () => {
-      console.log("in function decide who plays next")
-
-      for (let i = playerList.length - 1; i >= 0; i--) {
-        const mostRecentPlayerState = playerList[i].user.playerStates.pop()
-        const playerStateId = mostRecentPlayerState.id
-        console.log("inside for loop")
-        client
-        .get(`/playerState/${playerStateId}`)
-        .then((res) => {
-          console.log("checking p", i, " if they have played a card")
-          if (res.data.data.foundPlayerState.playerState.playedCard !== null){
-            if (i === playerList.length - 1) patchPlaysNext(playerList[i].user.playerStates.pop())
-            else patchPlaysNext(playerList[i+1].user.playerStates.pop())
+      .get(`/user/${userId}/playerStates`)
+      .then((res) => {
+          const mostRecentPlayerState = res.data.data.foundPlayerStates.pop()
+          const hand = mostRecentPlayerState.playerState.hand
+          setCurrentPlayerState(mostRecentPlayerState.playerState)
+          if(hand) {
+              setCards(hand)
+              setGameState("wait for bets")
           }
-        })
-      }
-      setGameState("wait for card")
-    }
-
-    if (gameState ==="decide who plays next") {
-      console.log("deciding who plays next")
-      decideWhoPlaysNext()
+      })
     }
     
-    console.log(gameState)
-    console.log("cards: ", cards)
+
+    // if (gameState ==="decide who plays next") {
+    //   decideWhoPlaysNext()
+    // }
 
     return (
         <ul className="list-reset display-inline">
+            {isHost && !cards && (
+              <li className="display-inline" key={`${cards[0]}${cards[1]}`}>
+                <button className="button-reset" onClick={() => {retrieveCards()}}>Click to retrieve cards</button>
+              </li>
+            )}
             {cards && cards.length > 1 && (
               <li className="display-inline" key={`${cards[0]}${cards[1]}`}>
                 <button className="button-reset" onClick={() => {playACard(`${cards[0]}${cards[1]}`)}}>

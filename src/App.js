@@ -31,10 +31,10 @@ function App() {
   let navigate = useNavigate();
 
   const refreshPlayerList = () => {
+    console.log("refreshing player list")
     client
     .get(`/user/table/${lobbyCode}`)
     .then((res) => {
-      console.log(res.data.data.foundUsers)
       setPlayerList(res.data.data.foundUsers)
       localStorage.setItem('current lobby players', JSON.stringify(res.data.data.foundUsers))
     })
@@ -45,10 +45,7 @@ function App() {
     if(gameState === "waiting lobby"){
       setGameState("start game")
       navigate(`../table/${lobbyCode}`, { replace: true })
-    } 
-  
-    // if(gameState === "decide who plays next" || gameState === "wait for card" || gameState === "waiting for bets") 
-    refreshPlayerList()
+    }   
   }
 
   return(
