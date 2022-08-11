@@ -37,7 +37,7 @@ function TableForMoreThanTwoPlayers() {
               <div>
                 <p>{playerList[shiftIndex(1)].user.username.toUpperCase()} {playerStates[shiftIndex(1)].bet !== null && ` - ${playerStates[shiftIndex(1)].bet}`}</p>
               </div>
-              <div className={`${playerList[shiftIndex(1)].user.playerStates[playerStateIndex()]?.playsNext ? "up-next" : ""} animal center`}>
+              <div className={`${playerStates[shiftIndex(1)].playsNext ? "up-next" : ""} animal center`}>
                 <img className="animal center" src={`../assets/diagrams/india/${shiftIndex(1)}.png`} alt="animal"></img>
               </div>
               <RenderTricksWonInRound />
@@ -54,7 +54,7 @@ function TableForMoreThanTwoPlayers() {
               {playerStates[shiftIndex(0)].playedCard === null && <div className="border-playing-card playing-card center"><img className="playing-card center visibility-hidden" src={`../assets/cards/red_joker.png`} alt="card"></img></div>}
               {playerStates[shiftIndex(0)].playedCard !== null && <div className="border-playing-card playing-card center m-bottom-s"><img className="playing-card center" src={`../assets/cards/${playerStates[shiftIndex(0)].playedCard[0]}${playerStates[shiftIndex(0)].playedCard[1]}.png`} alt="card"></img></div>}
               <RenderTricksWonInRound />
-              <div className={`${playerList[shiftIndex(0)].user.playerStates[playerStateIndex()]?.playsNext ? "up-next" : ""} animal center`}>
+              <div className={`${playerStates[shiftIndex(0)].playsNext ? "up-next" : ""} animal center`}>
                 <img className="animal center" src={`../assets/diagrams/india/${shiftIndex(0)}.png`} alt="tiger"></img>
               </div>
               <p>{playerList[shiftIndex(0)].user.username.toUpperCase()} {playerStates[shiftIndex(0)].bet !== null && ` - ${playerStates[shiftIndex(0)].bet}`}</p>
