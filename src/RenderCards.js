@@ -3,7 +3,7 @@ import { useContext } from "react";
 import client from './utils/client';
 
 function RenderCards() {
-    const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick, setGameState, isHost, loggedInUser, playerList, gameState, playerStates } = useContext(globalContext)
+    const { cards, setCards, currentPlayerState, setCurrentPlayerState, roundId, trick, setTrick, setGameState, isHost, loggedInUser, decideWhoPlaysNext } = useContext(globalContext)
 
     const playACard = (cardStr) => {
       const playerStateId = currentPlayerState.id
@@ -16,9 +16,9 @@ function RenderCards() {
         setCurrentPlayerState(res.data.data.playerState)
         setCards(res.data.data.playerState.hand)
       })
-      setGameState("decide who plays next")
       updateRound(cardStr)
       decideWhoPlaysNext()
+      setGameState("decide who plays next")
     }
 
     const isValidCard = (card) => {
@@ -47,49 +47,6 @@ function RenderCards() {
       })
     }
 
-    const decideWhoPlaysNext = () => {
-      console.log("deciding who plays next")
-      if(hasFirstPlayerPlayed()){
-        for (let i = 0; i < playerStates.length; i++) {
-          console.log("1st player has played")
-          const playerStateId = playerStates[i].id
-          console.log("player state id to patch: ", playerStateId)
-          if(playerStates[i].playedCard === "") patchWhoPlaysNext(playerStateId)
-        }
-      }
-      if(!hasFirstPlayerPlayed()&& !hasLastPlayerPlayed()) {
-        for (let i = playerStates.length - 2; i >= 0; i--) {
-          const playerStateId = playerStates[i+1].id
-          if(playerStates[i].playerCard !== "") patchWhoPlaysNext(playerStateId)
-        }
-      }
-      if(!hasFirstPlayerPlayed() && hasLastPlayerPlayed()) patchWhoPlaysNext(playerStates[0].id)
-    }
-
-    // const hasEveryOnePlayed = () => {
-    //     for(let i = 0; i < playerStates.length; i++) {
-    //       if(playerStates[i].playedCard === "") return false
-    //     }
-    //     return true
-    // }
-
-    const hasFirstPlayerPlayed = () => {
-        if(playerStates[0].playedCard !== '') return true
-        return false
-    }
-
-    const hasLastPlayerPlayed = () => {
-        if(playerStates[(playerStates.length - 1)].playedCard !== '') return true
-        return false
-    }
-
-    const patchWhoPlaysNext = (playerStateId) => {
-      console.log("player to play next: ", playerStateId)
-      client
-      .patch(`/user/playerState/${playerStateId}`, { playsNext: true })
-      setGameState("wait for card")
-    }
-
     const retrieveCards = () => {
       const userId = loggedInUser.user.id
       client
@@ -103,11 +60,6 @@ function RenderCards() {
               setGameState("wait for bets")
           }
       })
-    }
-    
-
-    if (gameState ==="decide who plays next") {
-      decideWhoPlaysNext()
     }
 
     return (
