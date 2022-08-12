@@ -1,11 +1,8 @@
-import { globalContext } from './helper/globalContext';
-import { useContext } from "react";
-
-function RenderTricksWonInRound() {
-    const { tricksWonInRound } = useContext(globalContext)
+function RenderTricksWonInRound(props) {
+    const tricksWonInRound = props.handsWon
 
     return (
-        <ul className="center-wrapper">
+        <ul className="center-wrapper m-bottom-m m-top-m">
             {tricksWonInRound === 0 && (
             <li className="display-inline m-left-s">
                     <img className="trick visibility-hidden" src="../assets/cards/card-back.png" alt="card-back"></img>

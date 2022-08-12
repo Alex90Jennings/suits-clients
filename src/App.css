@@ -378,6 +378,10 @@ a:focus {
   margin-bottom: 6px;
 }
 
+.m-bottom-m {
+  margin-bottom: 12px;
+}
+
 .m-bottom-l {
   margin-bottom: 24px;
 }
