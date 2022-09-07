@@ -1,6 +1,6 @@
 # Motivation and Learning Objectives
 
-The aim is to code a very fun card game (variation of whist) that my friends and I created while travelling in India, 2012. 
+The aim of the project is to code a very fun card game (variation of whist) that my friends and I created while travelling in India, 2012. 
 The card game kept us entertained for hours on long train and bus rides, with the loser of the game often being required to do a forfeit.
 Now that the 4 creators of the game all live in different countries, I thought it would be a lovely idea to get together online and play.
 
