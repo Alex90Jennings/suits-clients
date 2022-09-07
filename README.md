@@ -1,3 +1,15 @@
+# Motivation and Learning Objectives
+
+The aim is to code a very fun card game (variation of whist) that my friends and I created while travelling in India, 2012. 
+The card game kept us entertained for hours on long train and bus rides, with the loser of the game often being required to do a forfeit.
+Now that the 4 creators of the game all live in different countries, I thought it would be a lovely idea to get together online and play.
+
+The project has been built with the JS full stack languages, using React for the frontend and Node.js for the backend.
+The main challenge was the multiplayer nature of the game, where player 2 has to directly react to an action from player 1.
+In order to achieve this, intially I have implemented a auto refresh every second, but I will implement websockets to make the experience smoother.
+
+I hope that others find this game as entertaining as we did in 2012!
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
