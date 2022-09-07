@@ -5,7 +5,7 @@ The card game kept us entertained for hours on long train and bus rides, with th
 Now that the 4 creators of the game all live in different countries, I thought it would be a lovely idea to get together online and play.
 
 The project has been built with the JS full stack languages, using React for the frontend and Node.js for the backend.
-The main challenge was the multiplayer nature of the game, where player 2 has to directly react to an action from player 1.
+The main challenge was the multiplayer nature of the game, where player 2 must see and respond directly to an action from player 1.
 In order to achieve this, intially I have implemented a auto refresh every second, but I will implement websockets to make the experience smoother.
 
 I hope that others find this game as entertaining as we did in 2012!
