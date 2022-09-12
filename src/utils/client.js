@@ -1,5 +1,7 @@
 import axios from 'axios';
-const host = `http://localhost:4000`;
+const host = process.env.REACT_APP_API_URL;
+
+
 
 const client = {
 	get: (path) => {
@@ -24,5 +26,7 @@ const client = {
 		return axios.post(url, data);
 	},
 };
+
+console.log(process.env.REACT_APP_API_URL)
 
 export default client;
